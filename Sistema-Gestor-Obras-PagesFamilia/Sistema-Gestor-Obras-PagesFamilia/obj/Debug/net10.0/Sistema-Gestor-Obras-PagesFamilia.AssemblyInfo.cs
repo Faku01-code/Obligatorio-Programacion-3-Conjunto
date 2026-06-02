@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Sistema-Gestor-Obras-PagesFamilia")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1e2b8dd4ce808de84f458c87bcd1570bdf8aab14")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+25e00dd5e4d2765b5de83551d5f7be363e235853")]
 [assembly: System.Reflection.AssemblyProductAttribute("Sistema-Gestor-Obras-PagesFamilia")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Sistema-Gestor-Obras-PagesFamilia")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

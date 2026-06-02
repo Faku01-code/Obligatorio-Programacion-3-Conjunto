@@ -1,7 +1,16 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\Juan Meny\\Documents\\GitHub\\Obligatorio-Programacion-3-Conjunto\\Sistema-Gestor-Obras-PagesFamilia\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{86E793E3-7EAB-39D9-8C50-0B069D23ADA0}|Sistema-Gestor-Obras-PagesFamilia\\Sistema-Gestor-Obras-PagesFamilia.csproj|c:\\users\\juan meny\\documents\\github\\obligatorio-programacion-3-conjunto\\sistema-gestor-obras-pagesfamilia\\sistema-gestor-obras-pagesfamilia\\pages\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{86E793E3-7EAB-39D9-8C50-0B069D23ADA0}|Sistema-Gestor-Obras-PagesFamilia\\Sistema-Gestor-Obras-PagesFamilia.csproj|solutionrelative:sistema-gestor-obras-pagesfamilia\\pages\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{86E793E3-7EAB-39D9-8C50-0B069D23ADA0}|Sistema-Gestor-Obras-PagesFamilia\\Sistema-Gestor-Obras-PagesFamilia.csproj|c:\\users\\juan meny\\documents\\github\\obligatorio-programacion-3-conjunto\\sistema-gestor-obras-pagesfamilia\\sistema-gestor-obras-pagesfamilia\\pages\\index.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{86E793E3-7EAB-39D9-8C50-0B069D23ADA0}|Sistema-Gestor-Obras-PagesFamilia\\Sistema-Gestor-Obras-PagesFamilia.csproj|solutionrelative:sistema-gestor-obras-pagesfamilia\\pages\\index.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,7 +18,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -22,6 +31,32 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Index.cshtml.cs",
+              "DocumentMoniker": "C:\\Users\\Juan Meny\\Documents\\GitHub\\Obligatorio-Programacion-3-Conjunto\\Sistema-Gestor-Obras-PagesFamilia\\Sistema-Gestor-Obras-PagesFamilia\\Pages\\Index.cshtml.cs",
+              "RelativeDocumentMoniker": "Sistema-Gestor-Obras-PagesFamilia\\Pages\\Index.cshtml.cs",
+              "ToolTip": "C:\\Users\\Juan Meny\\Documents\\GitHub\\Obligatorio-Programacion-3-Conjunto\\Sistema-Gestor-Obras-PagesFamilia\\Sistema-Gestor-Obras-PagesFamilia\\Pages\\Index.cshtml.cs",
+              "RelativeToolTip": "Sistema-Gestor-Obras-PagesFamilia\\Pages\\Index.cshtml.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-02T15:24:48.677Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\Juan Meny\\Documents\\GitHub\\Obligatorio-Programacion-3-Conjunto\\Sistema-Gestor-Obras-PagesFamilia\\Sistema-Gestor-Obras-PagesFamilia\\Pages\\Index.cshtml",
+              "RelativeDocumentMoniker": "Sistema-Gestor-Obras-PagesFamilia\\Pages\\Index.cshtml",
+              "ToolTip": "C:\\Users\\Juan Meny\\Documents\\GitHub\\Obligatorio-Programacion-3-Conjunto\\Sistema-Gestor-Obras-PagesFamilia\\Sistema-Gestor-Obras-PagesFamilia\\Pages\\Index.cshtml*",
+              "RelativeToolTip": "Sistema-Gestor-Obras-PagesFamilia\\Pages\\Index.cshtml*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-06-02T03:14:40.559Z",
+              "EditorCaption": ""
             }
           ]
         },
