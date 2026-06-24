@@ -1,0 +1,23 @@
+@page "{id:int}"
+@model Sistema_Gestor_Obras_PagesFamilia.Pages.Clientes.DeleteModel
+@{
+    ViewData["Title"] = "Dar de baja cliente";
+}
+
+<div class="page-header"><h2>Dar de baja cliente</h2></div>
+
+<div class="glass-panel content-card form-card">
+    <div class="alert-delete">
+        <i class="bi bi-exclamation-triangle"></i>
+        ¿Confirma dar de baja a <strong>@Model.Cliente.Nombre</strong>?
+    </div>
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div class="alert alert-danger">@Model.ErrorMessage</div>
+    }
+    <form method="post" class="form-actions">
+        <input type="hidden" asp-for="Cliente.IdCliente" />
+        <a asp-page="Index" class="btn btn-secondary">Cancelar</a>
+        <button type="submit" class="btn btn-danger">Confirmar</button>
+    </form>
+</div>

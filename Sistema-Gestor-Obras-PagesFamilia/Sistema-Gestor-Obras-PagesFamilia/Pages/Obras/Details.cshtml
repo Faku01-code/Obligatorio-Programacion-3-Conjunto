@@ -1,0 +1,66 @@
+@page "{id:int}"
+@model Sistema_Gestor_Obras_PagesFamilia.Pages.Obras.DetailsModel
+@{
+    ViewData["Title"] = Model.Obra.Nombre;
+}
+
+<div class="page-header">
+    <div>
+        <h2>@Model.Obra.Nombre</h2>
+        <p class="text-muted">Detalle de la obra</p>
+    </div>
+    <div class="header-actions">
+        @if (Model.PuedeEscribir && Model.Obra.Activo == true)
+        {
+            <a asp-page="Edit" asp-route-id="@Model.Obra.IdObra" class="btn btn-light btn-sm">
+                <i class="bi bi-pencil"></i> Editar
+            </a>
+        }
+        <a asp-page="Index" class="btn btn-secondary btn-sm">Volver</a>
+    </div>
+</div>
+
+<div class="glass-panel content-card">
+    <div class="detail-grid">
+        <div class="detail-item">
+            <div class="detail-label">Cliente</div>
+            <div class="detail-value">@Model.Obra.IdClienteNavigation?.Nombre</div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label">Estado</div>
+            <div class="detail-value"><span class="status-badge">@Model.Obra.IdEstadoNavigation?.Nombre</span></div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label">Fecha inicio</div>
+            <div class="detail-value">@(Model.Obra.FechaInicio?.ToString("dd/MM/yyyy") ?? "-")</div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label">Fin estimado</div>
+            <div class="detail-value">@(Model.Obra.FechaFinEstimada?.ToString("dd/MM/yyyy") ?? "-")</div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label">Dirección</div>
+            <div class="detail-value">@(Model.Obra.Direccion ?? "-")</div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label">Activa</div>
+            <div class="detail-value">@(Model.Obra.Activo == true ? "Sí" : "No")</div>
+        </div>
+    </div>
+
+    @if (!string.IsNullOrEmpty(Model.Obra.Descripcion))
+    {
+        <div class="detail-full">
+            <div class="detail-label">Descripción</div>
+            <div class="detail-value">@Model.Obra.Descripcion</div>
+        </div>
+    }
+
+    <div class="detail-full meta-info">
+        <span>Creada: @(Model.Obra.FechaCreacion?.ToString("dd/MM/yyyy HH:mm") ?? "-")</span>
+        @if (Model.Obra.CreadoPorNavigation != null)
+        {
+            <span> · Por: @Model.Obra.CreadoPorNavigation.Email</span>
+        }
+    </div>
+</div>

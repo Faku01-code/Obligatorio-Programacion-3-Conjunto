@@ -1,0 +1,71 @@
+@page "{id:int}"
+@model Sistema_Gestor_Obras_PagesFamilia.Pages.Obras.EditModel
+@{
+    ViewData["Title"] = "Editar Obra";
+}
+
+<div class="page-header">
+    <div>
+        <h2>Editar Obra</h2>
+        <p class="text-muted">@Model.Input.Nombre</p>
+    </div>
+</div>
+
+<div class="glass-panel content-card form-card">
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div class="alert alert-danger">@Model.ErrorMessage</div>
+    }
+
+    <form method="post">
+        <input type="hidden" asp-for="Input.IdObra" />
+        <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+
+        <div class="form-group">
+            <label asp-for="Input.Nombre"></label>
+            <input asp-for="Input.Nombre" class="form-input glass-input" />
+            <span asp-validation-for="Input.Nombre" class="validation-msg"></span>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label asp-for="Input.IdCliente">Cliente</label>
+                <select asp-for="Input.IdCliente" asp-items="Model.Clientes" class="form-input glass-input"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.IdEstado">Estado</label>
+                <select asp-for="Input.IdEstado" asp-items="Model.Estados" class="form-input glass-input"></select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Input.Direccion"></label>
+            <input asp-for="Input.Direccion" class="form-input glass-input" />
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label asp-for="Input.FechaInicio"></label>
+                <input asp-for="Input.FechaInicio" class="form-input glass-input" type="date" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.FechaFinEstimada"></label>
+                <input asp-for="Input.FechaFinEstimada" class="form-input glass-input" type="date" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Input.Descripcion"></label>
+            <textarea asp-for="Input.Descripcion" class="form-input glass-input" rows="3"></textarea>
+        </div>
+
+        <div class="form-actions">
+            <a asp-page="Details" asp-route-id="@Model.Input.IdObra" class="btn btn-secondary">Cancelar</a>
+            <button type="submit" class="btn btn-light">Guardar cambios</button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

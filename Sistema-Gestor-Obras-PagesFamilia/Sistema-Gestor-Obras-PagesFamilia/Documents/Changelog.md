@@ -2,103 +2,75 @@
 
 Registro cronológico de cambios del proyecto, sincronizado con el [Plan de iteraciones](./Plan_de_Iteraciones.md) y la [Documentación de Ingeniería de Software](./Documentacion_Ing_Software.md).
 
-El formato se inspira en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/).  
-Las versiones siguen las etiquetas SCM planificadas por iteración (`v0.1-mvp`, `v0.2-personal`, etc.).
-
 ---
 
 ## [Unreleased]
 
-Cambios en curso que aún no tienen tag de versión.
-
 ### Added
-- `Documents/Plan_de_Iteraciones.md` — plan operativo de iteraciones 0–5 con tareas técnicas, entidades y criterios de done.
-- `Documents/Changelog.md` — registro de cambios del proyecto.
-
-### Changed
-- *(ninguno)*
-
-### Fixed
-- *(ninguno)*
-
-### Removed
 - *(ninguno)*
 
 ---
 
-## [v0.0-fundamentos] — 2026-03 / 2026-06 (en progreso)
+## [v0.1-mvp] — 2026-06-24
+
+**Iteración 1 — MVP (entrega inicial usable)**
+
+### Added
+- **Diseño UI:** sistema glassmorphism (estilo iOS/Apple) sobre base negro/blanco, tipografía Inter, paneles con `backdrop-filter`, bordes translúcidos y gradientes ambientales.
+- **Autenticación:** `Account/Login` con email/contraseña en texto plano (académico) y selector de rol (Administrador, Capataz, Consulta).
+- **Sesión:** `Account/Logout`, claves en `Helpers/SessionKeys.cs`, permisos en `Helpers/Roles.cs`.
+- **Capa de datos:** Repositories (`IRepository`, Obra, Cliente, EstadoObra, Usuario, Rol) y Services (Auth, Obra, Cliente, EstadoObra, Usuario).
+- **ViewModels:** Dashboard, Login, Obra, Cliente, Usuario.
+- **Dashboard:** panel con stats (obras, empleados, clientes) y obras recientes.
+- **Obras:** ABM completo (`Index`, `Create`, `Edit`, `Details`, `Delete` con baja lógica).
+- **Clientes:** ABM (solo Administrador puede crear/editar/dar de baja; todos ven listado).
+- **Usuarios:** ABM con asignación de roles (solo Administrador).
+- **Base de autorización:** `AuthenticatedPageModel` con redirección por rol.
+- **Seed en `Script-BDD.sql`:** usuario `admin@pages.com` / `admin123`, rol Administrador, clientes de ejemplo.
+
+### Changed
+- `PagesFamiliaContext`: conexión exclusiva vía `appsettings.json` (sin string hardcodeado).
+- `_Layout.cshtml`: navegación por módulos, badge de rol, alertas TempData, fuente Inter.
+- `site.css`: migrado a variables glassmorphism; componentes reutilizables (`.glass-panel`, `.glass-input`, `.role-cards`).
+- `Program.cs`: registro de `IUsuarioService`.
+
+### Permisos por rol (Iteración 1)
+
+| Acción | Administrador | Capataz | Consulta |
+|--------|---------------|---------|----------|
+| Ver panel y obras | Sí | Sí | Sí |
+| Crear/editar obras | Sí | Sí | No |
+| Ver obras inactivas | Sí | No | No |
+| ABM clientes | Sí | No | No |
+| ABM usuarios | Sí | No | No |
+
+### Fixed
+- Compilación: propiedades de `AuthenticatedPageModel` expuestas como `public` para vistas Razor.
+
+---
+
+## [v0.0-fundamentos] — 2026-03 / 2026-06
 
 **Iteración 0 — Fundamentos**
 
 ### Added
-- Documentación IDS completa: `Documents/Documentacion_Ing_Software.md` (relevamiento, RF/RNF, incrementos, cronograma, SQA, SCM, testing).
-- Proyecto ASP.NET Core Razor Pages (`net10.0`) con EF Core 9 y Pomelo MySQL.
-- Scaffolding de 15 entidades desde BD MySQL `pages_familia`:
-  - `Asignacion`, `CategoriaMov`, `Cliente`, `Compra`, `Empleado`, `EstadoObra`, `Material`, `MovimientoFin`, `Obra`, `ObraMaterial`, `Oficio`, `RegistroHora`, `Rol`, `Usuario`.
-- `Data/PagesFamiliaContext.cs` — DbContext con mapeo completo de relaciones e índices.
-- `Data/AppDbContext.cs` — contexto auxiliar (placeholder).
-- Configuración de inyección de dependencias en `Program.cs`:
-  - `PagesFamiliaContext` vía connection string.
-  - Registro planificado de Repositories y Services.
-  - Sesión HTTP (timeout 30 min).
-- Vista parcial de Dashboard en `Pages/Index` (estructura UI con stats y tabla de obras recientes).
-- Layout con navegación por módulos (`Panel`, `Obras`, `Personal`, `Materiales`, `Finanzas`, `Reportes`); módulos 2–5 deshabilitados hasta sus iteraciones.
-- Estilos base en `wwwroot/css/site.css`.
-- Connection string en `appsettings.json` / `appsettings.Development.json`.
-
-### Changed
-- *(pendiente)* Migrar connection string hardcodeada en `PagesFamiliaContext.OnConfiguring` a configuración exclusiva vía DI.
-
-### Fixed
-- *(ninguno registrado)*
-
-### Removed
-- *(ninguno)*
-
-### Known gaps (deuda técnica documentada)
-- Carpetas `Repositories/`, `Services/`, `ViewModels/` referenciadas en código pero **no presentes** en el repositorio.
-- Páginas `Account/Login`, `Account/Logout`, `Obras/*` referenciadas pero **no implementadas**.
-- Autenticación y hash de contraseñas pendientes.
-- Pruebas unitarias pendientes.
-- Diseño UI definitivo pendiente de especificación del equipo.
+- Documentación IDS: `Documentacion_Ing_Software.md`.
+- Scaffolding EF Core (15 entidades) + `PagesFamiliaContext`.
+- Proyecto ASP.NET Core Razor Pages (`net10.0`) + MySQL Pomelo.
+- `Plan_de_Iteraciones.md`, `Changelog.md`, `Script-BDD.sql`.
 
 ---
 
-## Plantilla para entradas futuras
-
-Copiar y completar al cerrar cada iteración o al mergear features relevantes:
-
-```markdown
-## [v0.X-nombre] — YYYY-MM-DD
-
-**Iteración N — Nombre**
-
-### Added
-- Descripción del cambio ([#PR](url) / commit `hash`)
-
-### Changed
-- ...
-
-### Fixed
-- ...
-
-### Removed
-- ...
-```
-
----
-
-## Historial planificado (referencia)
+## Historial planificado
 
 | Versión | Iteración | Estado |
 |---------|-----------|--------|
-| `v0.0-fundamentos` | 0 | En progreso |
-| `v0.1-mvp` | 1 | Pendiente |
+| `v0.0-fundamentos` | 0 | Completado |
+| `v0.1-mvp` | 1 | Completado |
 | `v0.2-personal` | 2 | Pendiente |
 | `v0.3-materiales` | 3 | Pendiente |
 | `v1.0` | 4 | Pendiente |
-| `v1.0-final` | 5 (cierre) | Pendiente |
 
 ---
 
-*Mantenido por el equipo de desarrollo. Actualizar este archivo en el mismo PR o commit que introduzca el cambio.*
+*Mantenido por el equipo de desarrollo.*

@@ -1,0 +1,90 @@
+@page
+@model Sistema_Gestor_Obras_PagesFamilia.Pages.Obras.IndexModel
+@{
+    ViewData["Title"] = "Obras";
+}
+
+<div class="page-header">
+    <div>
+        <h2>Obras</h2>
+        <p class="text-muted">Gestión de proyectos en curso y finalizados</p>
+    </div>
+    @if (Model.PuedeEscribir)
+    {
+        <a asp-page="Create" class="btn btn-light">
+            <i class="bi bi-plus-lg"></i> Nueva obra
+        </a>
+    }
+</div>
+
+<div class="glass-panel content-card">
+    @if (Model.Obras.Any())
+    {
+        <table class="table-dark-custom">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Cliente</th>
+                    <th>Estado</th>
+                    <th>Inicio</th>
+                    <th>Dirección</th>
+                    @if (Model.EsAdministrador)
+                    {
+                        <th>Activa</th>
+                    }
+                    <th class="text-center">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var obra in Model.Obras)
+                {
+                    <tr class="@(obra.Activo == false ? "row-inactive" : "")">
+                        <td><strong>@obra.Nombre</strong></td>
+                        <td>@obra.IdClienteNavigation?.Nombre</td>
+                        <td><span class="status-badge">@obra.IdEstadoNavigation?.Nombre</span></td>
+                        <td>@(obra.FechaInicio?.ToString("dd/MM/yyyy") ?? "-")</td>
+                        <td>@(obra.Direccion ?? "-")</td>
+                        @if (Model.EsAdministrador)
+                        {
+                            <td>
+                                @if (obra.Activo == true)
+                                {
+                                    <span class="badge-active">Sí</span>
+                                }
+                                else
+                                {
+                                    <span class="badge-inactive">No</span>
+                                }
+                            </td>
+                        }
+                        <td class="text-center actions-cell">
+                            <a asp-page="Details" asp-route-id="@obra.IdObra" class="btn-icon" title="Ver">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                            @if (Model.PuedeEscribir && obra.Activo == true)
+                            {
+                                <a asp-page="Edit" asp-route-id="@obra.IdObra" class="btn-icon" title="Editar">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <a asp-page="Delete" asp-route-id="@obra.IdObra" class="btn-icon btn-icon-danger" title="Dar de baja">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="empty-state">
+            <i class="bi bi-building"></i>
+            <p>No hay obras registradas</p>
+            @if (Model.PuedeEscribir)
+            {
+                <a asp-page="Create" class="btn btn-light">Crear primera obra</a>
+            }
+        </div>
+    }
+</div>

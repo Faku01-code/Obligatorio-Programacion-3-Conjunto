@@ -1,0 +1,88 @@
+@page
+@model Sistema_Gestor_Obras_PagesFamilia.Pages.Account.LoginModel
+@{
+    ViewData["Title"] = "Ingresar";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Pages & Familia</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body class="login-body">
+    <div class="login-bg"></div>
+
+    <div class="login-container">
+        <div class="glass-panel login-panel">
+            <div class="login-brand">
+                <span class="brand-bold">PAGES</span> & FAMILIA
+            </div>
+            <p class="login-subtitle">Sistema de Gestión de Obras</p>
+
+            @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+            {
+                <div class="alert alert-danger">
+                    <i class="bi bi-exclamation-circle"></i>
+                    @Model.ErrorMessage
+                </div>
+            }
+
+            <form method="post" class="login-form">
+                <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+
+                <div class="form-group">
+                    <label asp-for="Input.Email">Email</label>
+                    <input asp-for="Input.Email" class="form-input glass-input" placeholder="admin@pages.com" autocomplete="username" />
+                    <span asp-validation-for="Input.Email" class="validation-msg"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Input.Contrasenia">Contraseña</label>
+                    <input asp-for="Input.Contrasenia" type="password" class="form-input glass-input" placeholder="••••••••" autocomplete="current-password" />
+                    <span asp-validation-for="Input.Contrasenia" class="validation-msg"></span>
+                </div>
+
+                <div class="form-group">
+                    <label>Ingresar como</label>
+                    <div class="role-cards">
+                        @foreach (var rol in Model.RolesDisponibles)
+                        {
+                            var icon = rol.Nombre switch
+                            {
+                                "Administrador" => "bi-shield-lock",
+                                "Capataz" => "bi-hard-hat",
+                                "Consulta" => "bi-eye",
+                                _ => "bi-person"
+                            };
+                            <label class="role-card glass-card-selectable">
+                                <input type="radio" asp-for="Input.IdRol" value="@rol.IdRol" class="role-radio" />
+                                <div class="role-card-inner">
+                                    <i class="bi @icon"></i>
+                                    <span class="role-name">@rol.Nombre</span>
+                                    <span class="role-desc">@rol.Descripcion</span>
+                                </div>
+                            </label>
+                        }
+                    </div>
+                    <span asp-validation-for="Input.IdRol" class="validation-msg"></span>
+                </div>
+
+                <button type="submit" class="btn btn-light btn-login w-100">
+                    <i class="bi bi-box-arrow-in-right"></i> Ingresar
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+</body>
+</html>

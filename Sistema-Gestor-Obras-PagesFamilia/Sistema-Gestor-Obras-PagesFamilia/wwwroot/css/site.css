@@ -5,15 +5,21 @@
 :root {
     --bg-primary: #0a0a0a;
     --bg-secondary: #111111;
-    --bg-card: #141414;
-    --bg-input: #1a1a1a;
-    --border-color: #222222;
-    --border-hover: #333333;
+    --bg-card: rgba(255, 255, 255, 0.04);
+    --bg-input: rgba(255, 255, 255, 0.06);
+    --glass-bg: rgba(255, 255, 255, 0.06);
+    --glass-bg-hover: rgba(255, 255, 255, 0.10);
+    --glass-border: rgba(255, 255, 255, 0.12);
+    --glass-border-strong: rgba(255, 255, 255, 0.22);
+    --glass-blur: blur(24px);
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+    --border-color: rgba(255, 255, 255, 0.08);
+    --border-hover: rgba(255, 255, 255, 0.18);
     --text-primary: #ffffff;
-    --text-secondary: #888888;
-    --text-muted: #555555;
+    --text-secondary: rgba(255, 255, 255, 0.65);
+    --text-muted: rgba(255, 255, 255, 0.38);
     --accent: #ffffff;
-    --accent-hover: #e0e0e0;
+    --accent-hover: #e8e8e8;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -22,10 +28,68 @@ html { font-size: 14px; }
 @media (min-width: 768px) { html { font-size: 15px; } }
 
 body {
-    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
     background: var(--bg-primary);
     color: var(--text-primary);
     min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* =============================================
+   GLASSMORPHISM — Base del sistema (estilo iOS)
+   ============================================= */
+
+.app-bg,
+.login-bg {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background:
+        radial-gradient(ellipse 80% 60% at 20% 10%, rgba(255,255,255,0.07) 0%, transparent 55%),
+        radial-gradient(ellipse 60% 50% at 80% 80%, rgba(255,255,255,0.04) 0%, transparent 50%),
+        var(--bg-primary);
+}
+
+.glass-panel {
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    box-shadow: var(--glass-shadow);
+}
+
+.glass-topbar {
+    background: rgba(10, 10, 10, 0.72) !important;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--glass-border) !important;
+}
+
+.glass-input {
+    background: var(--bg-input) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border) !important;
+    border-radius: 10px !important;
+}
+
+.glass-input:focus {
+    border-color: var(--glass-border-strong) !important;
+    box-shadow: 0 0 0 3px rgba(255,255,255,0.06);
+}
+
+.glass-alert {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+.content-card {
+    padding: 24px;
+}
+
+.form-card {
+    max-width: 720px;
 }
 
 /* =============================================
@@ -36,8 +100,6 @@ body {
     display: flex;
     align-items: center;
     height: 60px;
-    background: var(--bg-secondary);
-    border-bottom: 1px solid var(--border-color);
     padding: 0 24px;
     position: sticky;
     top: 0;
@@ -103,6 +165,17 @@ body {
     color: var(--text-secondary);
 }
 
+.role-badge {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid var(--glass-border);
+    color: var(--text-secondary);
+}
+
 .topbar-btn-logout {
     color: var(--text-muted);
     font-size: 18px;
@@ -129,7 +202,17 @@ body {
    ============================================= */
 
 .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
     margin-bottom: 32px;
+    flex-wrap: wrap;
+}
+
+.header-actions {
+    display: flex;
+    gap: 8px;
 }
 
 .page-header h2 {
@@ -156,17 +239,17 @@ body {
 }
 
 .stat-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
     padding: 24px;
     display: flex;
     align-items: center;
     gap: 20px;
-    transition: border-color 0.2s;
+    transition: border-color 0.2s, background 0.2s;
 }
 
-.stat-card:hover { border-color: var(--border-hover); }
+.stat-card:hover {
+    background: var(--glass-bg-hover);
+    border-color: var(--glass-border-strong);
+}
 
 .stat-icon {
     width: 48px;
@@ -199,12 +282,7 @@ body {
    CONTENT CARD
    ============================================= */
 
-.content-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    padding: 24px;
-}
+/* content-card styles merged into .glass-panel.content-card */
 
 .section-header {
     display: flex;
@@ -530,6 +608,167 @@ textarea.form-input { resize: vertical; min-height: 80px; }
 }
 
 .text-danger { color: #ff6666 !important; }
+
+.row-inactive { opacity: 0.45; }
+
+.badge-active { color: #2ea44f; font-size: 12px; }
+.badge-inactive { color: #ff6666; font-size: 12px; }
+
+.actions-cell { white-space: nowrap; }
+
+.meta-info {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.validation-summary {
+    color: #ff6666;
+    font-size: 13px;
+    margin-bottom: 16px;
+}
+
+.validation-summary ul { margin: 0; padding-left: 18px; }
+
+/* =============================================
+   LOGIN — Glassmorphism
+   ============================================= */
+
+.login-body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+
+.login-container {
+    width: 100%;
+    max-width: 440px;
+    position: relative;
+    z-index: 1;
+}
+
+.login-panel {
+    padding: 40px 36px;
+}
+
+.login-brand {
+    text-align: center;
+    font-size: 15px;
+    letter-spacing: 3px;
+    font-weight: 300;
+    margin-bottom: 8px;
+}
+
+.login-subtitle {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 13px;
+    margin-bottom: 32px;
+}
+
+.login-form .form-group { margin-bottom: 22px; }
+
+.btn-login {
+    margin-top: 8px;
+    padding: 14px;
+    border-radius: 12px;
+    font-weight: 600;
+}
+
+.role-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.role-card {
+    cursor: pointer;
+    margin: 0;
+}
+
+.role-radio {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.role-card-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    padding: 14px 16px;
+    border-radius: 12px;
+    border: 1px solid var(--glass-border);
+    background: rgba(255,255,255,0.03);
+    transition: all 0.2s ease;
+}
+
+.role-card-inner i {
+    font-size: 18px;
+    margin-bottom: 4px;
+    color: var(--text-secondary);
+}
+
+.role-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.role-desc {
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+.glass-card-selectable:has(.role-radio:checked) .role-card-inner,
+.glass-card-selectable:has(input[type="checkbox"]:checked) {
+    background: rgba(255,255,255,0.12);
+    border-color: var(--glass-border-strong);
+}
+
+.glass-card-selectable:has(.role-radio:checked) .role-card-inner i {
+    color: var(--text-primary);
+}
+
+.checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.checkbox-item {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid var(--glass-border);
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.checkbox-item small {
+    width: 100%;
+    margin-left: 26px;
+    color: var(--text-muted);
+    font-size: 11px;
+}
+
+.checkbox-inline {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    cursor: pointer;
+}
+
+.w-100 { width: 100%; }
+
+.text-center { text-align: center; }
 
 /* =============================================
    RESPONSIVE

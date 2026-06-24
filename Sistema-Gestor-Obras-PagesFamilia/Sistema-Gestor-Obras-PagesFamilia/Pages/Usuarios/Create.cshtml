@@ -1,0 +1,48 @@
+@page
+@model Sistema_Gestor_Obras_PagesFamilia.Pages.Usuarios.CreateModel
+@{
+    ViewData["Title"] = "Nuevo Usuario";
+}
+
+<div class="page-header"><h2>Nuevo Usuario</h2></div>
+
+<div class="glass-panel content-card form-card">
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div class="alert alert-danger">@Model.ErrorMessage</div>
+    }
+    <form method="post">
+        <div class="form-group">
+            <label asp-for="Input.Email"></label>
+            <input asp-for="Input.Email" class="form-input glass-input" />
+            <span asp-validation-for="Input.Email" class="validation-msg"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Input.Contrasenia">Contraseña</label>
+            <input asp-for="Input.Contrasenia" type="text" class="form-input glass-input" />
+            <span asp-validation-for="Input.Contrasenia" class="validation-msg"></span>
+        </div>
+        <div class="form-group">
+            <label>Roles</label>
+            <div class="checkbox-group">
+                @foreach (var rol in Model.Roles)
+                {
+                    <label class="checkbox-item glass-card-selectable">
+                        <input type="checkbox" name="Input.RolesSeleccionados" value="@rol.IdRol"
+                               @(Model.Input.RolesSeleccionados.Contains(rol.IdRol) ? "checked" : "") />
+                        <span>@rol.Nombre</span>
+                        <small>@rol.Descripcion</small>
+                    </label>
+                }
+            </div>
+        </div>
+        <div class="form-actions">
+            <a asp-page="Index" class="btn btn-secondary">Cancelar</a>
+            <button type="submit" class="btn btn-light">Guardar</button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

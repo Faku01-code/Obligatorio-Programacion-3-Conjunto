@@ -7,26 +7,32 @@
 <div class="page-header">
     <div>
         <h2>Panel de Control</h2>
-        <p class="text-muted">Bienvenido, @Model.NombreUsuario</p>
+        <p class="text-muted">Bienvenido, @Model.UsuarioEmail · @Model.RolNombre</p>
     </div>
+    @if (Model.PuedeEscribir)
+    {
+        <a asp-page="/Obras/Create" class="btn btn-light">
+            <i class="bi bi-plus-lg"></i> Nueva obra
+        </a>
+    }
 </div>
 
 <div class="stats-grid">
-    <div class="stat-card">
+    <div class="glass-panel stat-card">
         <div class="stat-icon"><i class="bi bi-building"></i></div>
         <div class="stat-info">
             <div class="stat-number">@Model.Dashboard.TotalObrasActivas</div>
             <div class="stat-label">Obras Activas</div>
         </div>
     </div>
-    <div class="stat-card">
+    <div class="glass-panel stat-card">
         <div class="stat-icon"><i class="bi bi-people"></i></div>
         <div class="stat-info">
             <div class="stat-number">@Model.Dashboard.TotalEmpleados</div>
             <div class="stat-label">Empleados</div>
         </div>
     </div>
-    <div class="stat-card">
+    <div class="glass-panel stat-card">
         <div class="stat-icon"><i class="bi bi-person-badge"></i></div>
         <div class="stat-info">
             <div class="stat-number">@Model.Dashboard.TotalClientes</div>
@@ -35,7 +41,7 @@
     </div>
 </div>
 
-<div class="content-card">
+<div class="glass-panel content-card">
     <div class="section-header">
         <h3>Obras Recientes</h3>
         <a asp-page="/Obras/Index" class="btn btn-sm btn-outline-light">Ver todas</a>
@@ -50,7 +56,7 @@
                     <th>Cliente</th>
                     <th>Estado</th>
                     <th>Inicio</th>
-                    <th class="text-center">Accion</th>
+                    <th class="text-center">Acción</th>
                 </tr>
             </thead>
             <tbody>
@@ -75,8 +81,11 @@
     {
         <div class="empty-state">
             <i class="bi bi-inbox"></i>
-            <p>No hay obras registradas aun</p>
-            <a asp-page="/Obras/Create" class="btn btn-light">Crear primera obra</a>
+            <p>No hay obras registradas aún</p>
+            @if (Model.PuedeEscribir)
+            {
+                <a asp-page="/Obras/Create" class="btn btn-light">Crear primera obra</a>
+            }
         </div>
     }
 </div>

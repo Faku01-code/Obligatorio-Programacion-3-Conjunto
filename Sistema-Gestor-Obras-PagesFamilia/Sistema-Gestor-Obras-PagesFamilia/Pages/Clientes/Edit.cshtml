@@ -1,0 +1,40 @@
+@page "{id:int}"
+@model Sistema_Gestor_Obras_PagesFamilia.Pages.Clientes.EditModel
+@{
+    ViewData["Title"] = "Editar Cliente";
+}
+
+<div class="page-header"><h2>Editar Cliente</h2></div>
+
+<div class="glass-panel content-card form-card">
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div class="alert alert-danger">@Model.ErrorMessage</div>
+    }
+    <form method="post">
+        <input type="hidden" asp-for="Input.IdCliente" />
+        <div class="form-group">
+            <label asp-for="Input.Nombre"></label>
+            <input asp-for="Input.Nombre" class="form-input glass-input" />
+            <span asp-validation-for="Input.Nombre" class="validation-msg"></span>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label asp-for="Input.Telefono"></label>
+                <input asp-for="Input.Telefono" class="form-input glass-input" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Email"></label>
+                <input asp-for="Input.Email" class="form-input glass-input" />
+            </div>
+        </div>
+        <div class="form-actions">
+            <a asp-page="Index" class="btn btn-secondary">Cancelar</a>
+            <button type="submit" class="btn btn-light">Guardar</button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

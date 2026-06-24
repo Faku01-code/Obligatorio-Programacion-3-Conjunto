@@ -24,6 +24,7 @@ builder.Services.AddScoped<IObraService, ObraService>();
 builder.Services.AddScoped<IClienteService, ClienteService>();
 builder.Services.AddScoped<IEstadoObraService, EstadoObraService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 
 builder.Services.AddSession(options =>
 {

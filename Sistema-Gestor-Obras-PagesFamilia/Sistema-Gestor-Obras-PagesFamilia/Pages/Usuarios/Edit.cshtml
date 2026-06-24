@@ -1,0 +1,52 @@
+@page "{id:int}"
+@model Sistema_Gestor_Obras_PagesFamilia.Pages.Usuarios.EditModel
+@{
+    ViewData["Title"] = "Editar Usuario";
+}
+
+<div class="page-header"><h2>Editar Usuario</h2></div>
+
+<div class="glass-panel content-card form-card">
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div class="alert alert-danger">@Model.ErrorMessage</div>
+    }
+    <form method="post">
+        <input type="hidden" asp-for="Input.IdUsuario" />
+        <div class="form-group">
+            <label asp-for="Input.Email"></label>
+            <input asp-for="Input.Email" class="form-input glass-input" />
+        </div>
+        <div class="form-group">
+            <label class="checkbox-inline">
+                <input asp-for="Input.CambiarContrasenia" type="checkbox" />
+                Cambiar contraseña
+            </label>
+        </div>
+        <div class="form-group">
+            <label asp-for="Input.Contrasenia">Nueva contraseña</label>
+            <input asp-for="Input.Contrasenia" type="text" class="form-input glass-input" />
+        </div>
+        <div class="form-group">
+            <label>Roles</label>
+            <div class="checkbox-group">
+                @foreach (var rol in Model.Roles)
+                {
+                    <label class="checkbox-item glass-card-selectable">
+                        <input type="checkbox" name="Input.RolesSeleccionados" value="@rol.IdRol"
+                               @(Model.Input.RolesSeleccionados.Contains(rol.IdRol) ? "checked" : "") />
+                        <span>@rol.Nombre</span>
+                    </label>
+                }
+            </div>
+        </div>
+        <div class="form-actions">
+            <a asp-page="Index" class="btn btn-secondary">Cancelar</a>
+            <button type="submit" class="btn btn-light">Guardar</button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

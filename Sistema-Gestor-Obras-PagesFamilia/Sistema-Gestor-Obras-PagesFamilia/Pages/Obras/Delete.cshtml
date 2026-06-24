@@ -1,0 +1,41 @@
+@page "{id:int}"
+@model Sistema_Gestor_Obras_PagesFamilia.Pages.Obras.DeleteModel
+@{
+    ViewData["Title"] = "Dar de baja obra";
+}
+
+<div class="page-header">
+    <div>
+        <h2>Dar de baja obra</h2>
+        <p class="text-muted">Esta acción desactiva la obra, no elimina su historial</p>
+    </div>
+</div>
+
+<div class="glass-panel content-card form-card">
+    <div class="alert-delete">
+        <i class="bi bi-exclamation-triangle"></i>
+        ¿Confirma dar de baja la obra <strong>@Model.Obra.Nombre</strong>?
+    </div>
+
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div class="alert alert-danger">@Model.ErrorMessage</div>
+    }
+
+    <div class="detail-grid">
+        <div class="detail-item">
+            <div class="detail-label">Cliente</div>
+            <div class="detail-value">@Model.Obra.IdClienteNavigation?.Nombre</div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label">Estado</div>
+            <div class="detail-value">@Model.Obra.IdEstadoNavigation?.Nombre</div>
+        </div>
+    </div>
+
+    <form method="post" class="form-actions">
+        <input type="hidden" asp-for="Obra.IdObra" />
+        <a asp-page="Details" asp-route-id="@Model.Obra.IdObra" class="btn btn-secondary">Cancelar</a>
+        <button type="submit" class="btn btn-danger">Confirmar baja</button>
+    </form>
+</div>
