@@ -4,6 +4,19 @@ Registro cronológico de cambios del proyecto, sincronizado con el [Plan de iter
 
 ---
 
+## [v1.1] — 2026-06-24
+
+**Ajustes post-MVP — Login split-screen + pulido UI**
+
+### Changed
+- **Login:** nuevo layout de dos columnas. Izquierda: formulario de acceso. Derecha: panel de bienvenida con descripción del sistema y lista de features.
+- **Role-cards:** selector de roles convertido a disposición horizontal (`role-cards--horizontal`) con tarjetas compactas (ícono + nombre, sin descripción visible).
+- **Role-cards fix:** corregida deformación de texto (`text-transform` eliminado, `flex` con `min-width`/`max-width`, `word-break`). Ícono de Capataz corregido de `bi-hard-hat` → `bi-hammer`.
+- **Dashboard:** subtítulo de bienvenida ("Bienvenido, email · rol") mejorado de `rgba(255,255,255,0.38)` a `rgba(255,255,255,0.62)` para mayor legibilidad.
+- **CSS:** sección LOGIN rediseñada. Nuevas clases: `.login-split-container`, `.login-left`, `.login-right`, `.login-welcome`, `.login-feature`, `.role-cards--horizontal`, `.role-card-inner--compact`. Responsive: en pantallas ≤900 px se oculta la columna derecha y el panel se apila.
+
+---
+
 ## [Unreleased]
 
 ### Added
