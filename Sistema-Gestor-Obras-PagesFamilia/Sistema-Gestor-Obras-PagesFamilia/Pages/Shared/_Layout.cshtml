@@ -1,52 +1,69 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Sistema_Gestor_Obras_PagesFamilia</title>
-    <script type="importmap"></script>
+    <title>@ViewData["Title"] - Pages & Familia</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    @* <link rel="stylesheet" href="~/Sistema_Gestor_Obras_PagesFamilia.styles.css" asp-append-version="true" /> *@
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">Sistema_Gestor_Obras_PagesFamilia</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+    @{
+        var estaLogueado = Context.Session.GetInt32("UsuarioId") != null;
+        var nombreUsuario = Context.Session.GetString("UsuarioNombre") ?? "";
+    }
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - Sistema_Gestor_Obras_PagesFamilia - <a asp-area="" asp-page="/Privacy">Privacy</a>
-        </div>
-    </footer>
+    @if (estaLogueado)
+    {
+        <header class="topbar">
+            <div class="topbar-brand">
+                <a asp-page="/Index">
+                    <span class="brand-bold">PAGES</span> & FAMILIA
+                </a>
+            </div>
+            <nav class="topbar-nav">
+                <a asp-page="/Index" class="topbar-btn">
+                    <i class="bi bi-speedometer2"></i>
+                    <span>Panel</span>
+                </a>
+                <a asp-page="/Obras/Index" class="topbar-btn">
+                    <i class="bi bi-building"></i>
+                    <span>Obras</span>
+                </a>
+                <a class="topbar-btn disabled">
+                    <i class="bi bi-people"></i>
+                    <span>Personal</span>
+                </a>
+                <a class="topbar-btn disabled">
+                    <i class="bi bi-box-seam"></i>
+                    <span>Materiales</span>
+                </a>
+                <a class="topbar-btn disabled">
+                    <i class="bi bi-cash-stack"></i>
+                    <span>Finanzas</span>
+                </a>
+                <a class="topbar-btn disabled">
+                    <i class="bi bi-bar-chart"></i>
+                    <span>Reportes</span>
+                </a>
+            </nav>
+            <div class="topbar-user">
+                <span class="user-name">@nombreUsuario</span>
+                <a asp-page="/Account/Logout" class="topbar-btn-logout">
+                    <i class="bi bi-box-arrow-right"></i>
+                </a>
+            </div>
+        </header>
+    }
+
+    <main class="@(estaLogueado ? "main-content" : "")">
+        @RenderBody()
+    </main>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

@@ -1,26 +1,46 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Sistema_Gestor_Obras_PagesFamilia.Data;
+using Sistema_Gestor_Obras_PagesFamilia.Repositories;
+using Sistema_Gestor_Obras_PagesFamilia.ViewModels;
 
-namespace Sistema_Gestor_Obras_PagesFamilia.Pages
+namespace Sistema_Gestor_Obras_PagesFamilia.Pages;
+
+public class IndexModel : PageModel
 {
-    public class IndexModel : PageModel
+    private readonly IObraRepository _obraRepository;
+    private readonly IClienteRepository _clienteRepository;
+
+    public IndexModel(IObraRepository obraRepository, IClienteRepository clienteRepository)
     {
-        private readonly PagesFamiliaContext _context;
+        _obraRepository = obraRepository;
+        _clienteRepository = clienteRepository;
+    }
 
-        public string AppNombre { get; private set; } = "Pages & Familia";
-        public string AppSubtitulo { get; private set; } = "Sistema de Gestión de Obra";
+    public DashboardViewModel Dashboard { get; set; } = new();
+    public string NombreUsuario { get; set; } = string.Empty;
 
-        public int CantidadClientes { get; set; }
+    public async Task<IActionResult> OnGetAsync()
+    {
+        if (HttpContext.Session.GetInt32("UsuarioId") == null)
+            return RedirectToPage("/Account/Login");
 
-        public IndexModel(PagesFamiliaContext context)
+        NombreUsuario = HttpContext.Session.GetString("UsuarioNombre") ?? "Usuario";
+
+        var obras = (await _obraRepository.GetAllWithDetailsAsync()).ToList();
+
+        Dashboard = new DashboardViewModel
         {
-            _context = context;
-        }
+            TotalObrasActivas = obras.Count,
+            TotalClientes = (await _clienteRepository.GetAllActiveAsync()).Count(),
+            ObrasRecientes = obras.Take(5).Select(o => new ObraResumenViewModel
+            {
+                IdObra = o.IdObra, Nombre = o.Nombre,
+                ClienteNombre = o.IdClienteNavigation?.Nombre,
+                EstadoNombre = o.IdEstadoNavigation?.Nombre ?? "Sin estado",
+                FechaInicio = o.FechaInicio
+            }).ToList()
+        };
 
-        public void OnGet()
-        {
-            CantidadClientes = _context.Clientes.Count();
-        }
+        return Page();
     }
 }
