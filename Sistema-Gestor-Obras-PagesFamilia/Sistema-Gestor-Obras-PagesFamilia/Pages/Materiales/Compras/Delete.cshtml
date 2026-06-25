@@ -1,0 +1,67 @@
+@page "{id:int}"
+@model Sistema_Gestor_Obras_PagesFamilia.Pages.Materiales.Compras.DeleteModel
+@{
+    ViewData["Title"] = "Eliminar compra";
+    var monto = Model.Compra.Cantidad * Model.Compra.CostoUnitario;
+}
+
+<div class="page-header">
+    <div>
+        <h2>Eliminar compra</h2>
+        <p class="text-muted">También se eliminará el movimiento financiero asociado</p>
+    </div>
+</div>
+
+<div class="glass-panel content-card form-card">
+    <div class="alert-delete">
+        <i class="bi bi-exclamation-triangle"></i>
+        ¿Confirma eliminar esta compra de
+        <strong>@Model.Compra.IdObraMaterialNavigation?.IdMaterialNavigation?.Nombre</strong>?
+    </div>
+
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div class="alert alert-danger">@Model.ErrorMessage</div>
+    }
+
+    <div class="detail-grid">
+        <div class="detail-item">
+            <div class="detail-label">Material</div>
+            <div class="detail-value">@Model.Compra.IdObraMaterialNavigation?.IdMaterialNavigation?.Nombre</div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label">Obra</div>
+            <div class="detail-value">@Model.Compra.IdObraMaterialNavigation?.IdObraNavigation?.Nombre</div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label">Fecha</div>
+            <div class="detail-value">@Model.Compra.Fecha.ToString("dd/MM/yyyy")</div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label">Cantidad</div>
+            <div class="detail-value">@Model.Compra.Cantidad</div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label">Costo unitario</div>
+            <div class="detail-value">$@Model.Compra.CostoUnitario.ToString("N2")</div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label">Total</div>
+            <div class="detail-value">$@monto.ToString("N2")</div>
+        </div>
+    </div>
+
+    <form method="post" class="form-actions">
+        <input type="hidden" asp-for="Compra.IdCompra" />
+        <input type="hidden" name="returnObraId" value="@Model.ReturnObraId" />
+        @if (Model.ReturnObraId.HasValue)
+        {
+            <a asp-page="/Obras/Details" asp-route-id="@Model.ReturnObraId" class="btn btn-secondary">Cancelar</a>
+        }
+        else
+        {
+            <a asp-page="/Obras/Index" class="btn btn-secondary">Cancelar</a>
+        }
+        <button type="submit" class="btn btn-danger">Eliminar</button>
+    </form>
+</div>

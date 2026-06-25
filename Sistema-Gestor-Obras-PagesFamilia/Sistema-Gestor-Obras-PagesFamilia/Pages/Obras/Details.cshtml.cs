@@ -8,15 +8,18 @@ public class DetailsModel : AuthenticatedPageModel
 {
     private readonly IObraService _obraService;
     private readonly IAsignacionService _asignacionService;
+    private readonly IObraMaterialService _obraMaterialService;
 
-    public DetailsModel(IObraService obraService, IAsignacionService asignacionService)
+    public DetailsModel(IObraService obraService, IAsignacionService asignacionService, IObraMaterialService obraMaterialService)
     {
         _obraService = obraService;
         _asignacionService = asignacionService;
+        _obraMaterialService = obraMaterialService;
     }
 
     public Obra Obra { get; set; } = null!;
     public IEnumerable<Asignacion> Asignaciones { get; set; } = [];
+    public IEnumerable<ObraMaterial> ObraMateriales { get; set; } = [];
 
     public async Task<IActionResult> OnGetAsync(int id)
     {
@@ -28,6 +31,7 @@ public class DetailsModel : AuthenticatedPageModel
 
         Obra = obra;
         Asignaciones = await _asignacionService.ObtenerPorObraAsync(id);
+        ObraMateriales = await _obraMaterialService.ObtenerPorObraAsync(id);
         return Page();
     }
 }

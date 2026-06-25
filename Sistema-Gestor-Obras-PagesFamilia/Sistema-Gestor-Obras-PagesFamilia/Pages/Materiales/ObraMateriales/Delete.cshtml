@@ -1,0 +1,54 @@
+@page "{id:int}"
+@model Sistema_Gestor_Obras_PagesFamilia.Pages.Materiales.ObraMateriales.DeleteModel
+@{
+    ViewData["Title"] = "Quitar material de obra";
+}
+
+<div class="page-header">
+    <div>
+        <h2>Quitar material</h2>
+        <p class="text-muted">Esta acción no se puede deshacer</p>
+    </div>
+</div>
+
+<div class="glass-panel content-card form-card">
+    <div class="alert-delete">
+        <i class="bi bi-exclamation-triangle"></i>
+        ¿Confirma quitar <strong>@Model.ObraMaterial.IdMaterialNavigation?.Nombre</strong>
+        de la obra <strong>@Model.ObraMaterial.IdObraNavigation?.Nombre</strong>?
+    </div>
+
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div class="alert alert-danger">@Model.ErrorMessage</div>
+    }
+
+    <div class="detail-grid">
+        <div class="detail-item">
+            <div class="detail-label">Material</div>
+            <div class="detail-value">@Model.ObraMaterial.IdMaterialNavigation?.Nombre</div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label">Unidad</div>
+            <div class="detail-value">@Model.ObraMaterial.IdMaterialNavigation?.Unidad</div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label">Cantidad requerida</div>
+            <div class="detail-value">@Model.ObraMaterial.CantRequerida</div>
+        </div>
+    </div>
+
+    <form method="post" class="form-actions">
+        <input type="hidden" asp-for="ObraMaterial.IdObraMaterial" />
+        <input type="hidden" name="returnObraId" value="@Model.ReturnObraId" />
+        @if (Model.ReturnObraId.HasValue)
+        {
+            <a asp-page="/Obras/Details" asp-route-id="@Model.ReturnObraId" class="btn btn-secondary">Cancelar</a>
+        }
+        else
+        {
+            <a asp-page="/Obras/Index" class="btn btn-secondary">Cancelar</a>
+        }
+        <button type="submit" class="btn btn-danger">Quitar</button>
+    </form>
+</div>

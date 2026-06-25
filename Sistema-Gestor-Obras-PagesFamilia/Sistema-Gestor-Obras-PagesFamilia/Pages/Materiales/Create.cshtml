@@ -1,0 +1,43 @@
+@page
+@model Sistema_Gestor_Obras_PagesFamilia.Pages.Materiales.CreateModel
+@{
+    ViewData["Title"] = "Nuevo material";
+}
+
+<div class="page-header">
+    <div>
+        <h2>Nuevo material</h2>
+        <p class="text-muted">Agregar insumo al catálogo</p>
+    </div>
+</div>
+
+<div class="glass-panel content-card form-card">
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div class="alert alert-danger">@Model.ErrorMessage</div>
+    }
+
+    <form method="post">
+        <div class="form-row-2">
+            <div class="form-group">
+                <label asp-for="Input.Nombre" class="form-label">Nombre *</label>
+                <input asp-for="Input.Nombre" class="form-control glass-input" placeholder="Ej: Cemento portland" />
+                <span asp-validation-for="Input.Nombre" class="text-danger small"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Unidad" class="form-label">Unidad *</label>
+                <input asp-for="Input.Unidad" class="form-control glass-input" placeholder="Ej: bolsa, kg, m², litro" />
+                <span asp-validation-for="Input.Unidad" class="text-danger small"></span>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <a asp-page="Index" class="btn btn-secondary">Cancelar</a>
+            <button type="submit" class="btn btn-light">Guardar</button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

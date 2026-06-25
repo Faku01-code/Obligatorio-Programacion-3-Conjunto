@@ -22,6 +22,9 @@ builder.Services.AddScoped<IRolRepository, RolRepository>();
 builder.Services.AddScoped<IOficioRepository, OficioRepository>();
 builder.Services.AddScoped<IEmpleadoRepository, EmpleadoRepository>();
 builder.Services.AddScoped<IAsignacionRepository, AsignacionRepository>();
+builder.Services.AddScoped<IMaterialRepository, MaterialRepository>();
+builder.Services.AddScoped<IObraMaterialRepository, ObraMaterialRepository>();
+builder.Services.AddScoped<ICompraRepository, CompraRepository>();
 
 builder.Services.AddScoped<IObraService, ObraService>();
 builder.Services.AddScoped<IClienteService, ClienteService>();
@@ -31,6 +34,9 @@ builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 builder.Services.AddScoped<IOficioService, OficioService>();
 builder.Services.AddScoped<IEmpleadoService, EmpleadoService>();
 builder.Services.AddScoped<IAsignacionService, AsignacionService>();
+builder.Services.AddScoped<IMaterialService, MaterialService>();
+builder.Services.AddScoped<IObraMaterialService, ObraMaterialService>();
+builder.Services.AddScoped<ICompraService, CompraService>();
 
 builder.Services.AddSession(options =>
 {

@@ -131,3 +131,110 @@
         </div>
     }
 </div>
+
+<div class="glass-panel content-card" style="margin-top: 1.5rem;">
+    <div class="section-header">
+        <h3>Materiales</h3>
+        @if (Model.PuedeEscribir && Model.Obra.Activo == true)
+        {
+            <a asp-page="/Materiales/ObraMateriales/Create"
+               asp-route-obraId="@Model.Obra.IdObra"
+               asp-route-returnObraId="@Model.Obra.IdObra"
+               class="btn btn-light btn-sm">
+                <i class="bi bi-plus-lg"></i> Agregar material
+            </a>
+        }
+    </div>
+
+    @if (Model.ObraMateriales.Any())
+    {
+        <table class="table-dark-custom">
+            <thead>
+                <tr>
+                    <th>Material</th>
+                    <th>Unidad</th>
+                    <th class="text-center">Req.</th>
+                    <th class="text-center">Comprado</th>
+                    <th class="text-center">Total gastado</th>
+                    @if (Model.PuedeEscribir)
+                    {
+                        <th class="text-center">Acciones</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var om in Model.ObraMateriales)
+                {
+                    var cantComprada = om.Compras.Sum(c => c.Cantidad);
+                    var totalGastado = om.Compras.Sum(c => c.Cantidad * c.CostoUnitario);
+                    var completo = cantComprada >= om.CantRequerida && om.CantRequerida > 0;
+
+                    <tr>
+                        <td>@om.IdMaterialNavigation?.Nombre</td>
+                        <td>@om.IdMaterialNavigation?.Unidad</td>
+                        <td class="text-center">@om.CantRequerida</td>
+                        <td class="text-center">
+                            <span class="@(completo ? "badge-active" : (cantComprada > 0 ? "" : ""))">
+                                @cantComprada
+                            </span>
+                        </td>
+                        <td class="text-center">$@totalGastado.ToString("N2")</td>
+                        @if (Model.PuedeEscribir)
+                        {
+                            <td class="text-center actions-cell">
+                                <a asp-page="/Materiales/Compras/Create"
+                                   asp-route-obraMaterialId="@om.IdObraMaterial"
+                                   asp-route-returnObraId="@Model.Obra.IdObra"
+                                   class="btn-icon" title="Registrar compra">
+                                    <i class="bi bi-cart-plus"></i>
+                                </a>
+                                <a asp-page="/Materiales/ObraMateriales/Delete"
+                                   asp-route-id="@om.IdObraMaterial"
+                                   asp-route-returnObraId="@Model.Obra.IdObra"
+                                   class="btn-icon btn-icon-danger" title="Quitar material">
+                                    <i class="bi bi-x-lg"></i>
+                                </a>
+                            </td>
+                        }
+                    </tr>
+
+                    @foreach (var compra in om.Compras.OrderByDescending(c => c.Fecha))
+                    {
+                        <tr class="compra-sub-row">
+                            <td class="compra-sub-indent" colspan="2">
+                                <i class="bi bi-arrow-return-right"></i>
+                                @compra.Fecha.ToString("dd/MM/yyyy")
+                                @if (!string.IsNullOrEmpty(compra.IdMovimientoNavigation?.Descripcion) &&
+                                     !compra.IdMovimientoNavigation.Descripcion.StartsWith("Compra:"))
+                                {
+                                    <span class="text-muted"> · @compra.IdMovimientoNavigation.Descripcion</span>
+                                }
+                            </td>
+                            <td class="text-center">@compra.Cantidad</td>
+                            <td class="text-center text-muted" style="font-size:12px;">$@compra.CostoUnitario.ToString("N2")</td>
+                            <td class="text-center">$@((compra.Cantidad * compra.CostoUnitario).ToString("N2"))</td>
+                            @if (Model.PuedeEscribir)
+                            {
+                                <td class="text-center actions-cell">
+                                    <a asp-page="/Materiales/Compras/Delete"
+                                       asp-route-id="@compra.IdCompra"
+                                       asp-route-returnObraId="@Model.Obra.IdObra"
+                                       class="btn-icon btn-icon-danger" title="Eliminar compra">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+                                </td>
+                            }
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="empty-state">
+            <i class="bi bi-box-seam"></i>
+            <p>Sin materiales registrados para esta obra</p>
+        </div>
+    }
+</div>

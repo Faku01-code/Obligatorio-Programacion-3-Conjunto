@@ -1,0 +1,41 @@
+@page "{id:int}"
+@model Sistema_Gestor_Obras_PagesFamilia.Pages.Materiales.DeleteModel
+@{
+    ViewData["Title"] = "Dar de baja material";
+}
+
+<div class="page-header">
+    <div>
+        <h2>Dar de baja material</h2>
+        <p class="text-muted">Esta acción no elimina el historial de compras</p>
+    </div>
+</div>
+
+<div class="glass-panel content-card form-card">
+    <div class="alert-delete">
+        <i class="bi bi-exclamation-triangle"></i>
+        ¿Confirma dar de baja el material <strong>@Model.Material.Nombre</strong>?
+    </div>
+
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div class="alert alert-danger">@Model.ErrorMessage</div>
+    }
+
+    <div class="detail-grid">
+        <div class="detail-item">
+            <div class="detail-label">Nombre</div>
+            <div class="detail-value">@Model.Material.Nombre</div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label">Unidad</div>
+            <div class="detail-value">@Model.Material.Unidad</div>
+        </div>
+    </div>
+
+    <form method="post" class="form-actions">
+        <input type="hidden" name="id" value="@Model.Material.IdMaterial" />
+        <a asp-page="Index" class="btn btn-secondary">Cancelar</a>
+        <button type="submit" class="btn btn-danger">Dar de baja</button>
+    </form>
+</div>

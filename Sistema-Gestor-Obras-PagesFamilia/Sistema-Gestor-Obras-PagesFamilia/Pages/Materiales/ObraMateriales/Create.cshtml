@@ -1,0 +1,55 @@
+@page
+@model Sistema_Gestor_Obras_PagesFamilia.Pages.Materiales.ObraMateriales.CreateModel
+@{
+    ViewData["Title"] = "Agregar material a obra";
+}
+
+<div class="page-header">
+    <div>
+        <h2>Agregar material</h2>
+        <p class="text-muted">Registrar material requerido para la obra</p>
+    </div>
+</div>
+
+<div class="glass-panel content-card form-card">
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div class="alert alert-danger">@Model.ErrorMessage</div>
+    }
+
+    <form method="post">
+        <input type="hidden" name="returnObraId" value="@Model.ReturnObraId" />
+        <input type="hidden" asp-for="Input.IdObra" />
+
+        <div class="form-row-2">
+            <div class="form-group">
+                <label asp-for="Input.IdMaterial" class="form-label">Material *</label>
+                <select asp-for="Input.IdMaterial" asp-items="Model.Materiales" class="form-control glass-input">
+                    <option value="">— Seleccionar —</option>
+                </select>
+                <span asp-validation-for="Input.IdMaterial" class="text-danger small"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.CantRequerida" class="form-label">Cantidad requerida *</label>
+                <input asp-for="Input.CantRequerida" type="number" step="0.01" min="0" class="form-control glass-input" />
+                <span asp-validation-for="Input.CantRequerida" class="text-danger small"></span>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            @if (Model.ReturnObraId.HasValue)
+            {
+                <a asp-page="/Obras/Details" asp-route-id="@Model.ReturnObraId" class="btn btn-secondary">Cancelar</a>
+            }
+            else
+            {
+                <a asp-page="/Obras/Index" class="btn btn-secondary">Cancelar</a>
+            }
+            <button type="submit" class="btn btn-light">Guardar</button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

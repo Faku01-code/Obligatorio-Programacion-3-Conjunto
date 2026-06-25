@@ -4,6 +4,38 @@ Registro cronológico de cambios del proyecto, sincronizado con el [Plan de iter
 
 ---
 
+## [v1.3] — 2026-06-25
+
+**Iteración 3 — Módulo Materiales**
+
+### Added
+- **Materiales:** ABM completo (`Materiales/Index`, `Create`, `Edit`, `Delete` con baja lógica). Campos: nombre, unidad, activo.
+- **ObraMateriales:** agregar/quitar material de obra con cantidad requerida (`Materiales/ObraMateriales/Create`, `Delete`). Validación de unicidad por par (obra + material). Protección contra eliminación si existen compras.
+- **Compras:** alta y baja de compras por ObraMaterial (`Materiales/Compras/Create`, `Delete`). Campos: cantidad, costo unitario, fecha, descripción opcional.
+- **MovimientoFin automático:** al registrar una compra se genera un egreso en `movimiento_fin` con categoría "Compra de material". Al eliminar la compra se elimina el movimiento asociado.
+- **Repositories:** `IMaterialRepository`, `MaterialRepository`, `IObraMaterialRepository`, `ObraMaterialRepository`, `ICompraRepository`, `CompraRepository`.
+- **Services:** `IMaterialService`, `MaterialService`, `IObraMaterialService`, `ObraMaterialService`, `ICompraService`, `CompraService`.
+- **ViewModels:** `MaterialFormViewModel`, `ObraMaterialFormViewModel`, `CompraFormViewModel`.
+- **CSS:** estilos `.compra-sub-row` y `.compra-sub-indent` para sub-filas de compras en tabla.
+
+### Changed
+- **`_Layout.cshtml`:** link Materiales habilitado (`asp-page="/Materiales/Index"`).
+- **`Obras/Details`:** nueva sección "Materiales" con tabla de ObraMateriales + sub-filas de compras inline (fecha, cantidad, costo, total), botones "Agregar material" y "Registrar compra".
+- **`Obras/Details.cshtml.cs`:** inyección de `IObraMaterialService`, carga de `ObraMateriales` en `OnGetAsync`.
+- **`Program.cs`:** registro de 3 nuevos repositorios y 3 nuevos services en el contenedor DI.
+
+### Permisos por rol (Iteración 3)
+
+| Acción | Administrador | Capataz | Consulta |
+|--------|---------------|---------|----------|
+| Ver catálogo de materiales | Sí (todos) | Sí (activos) | Sí (activos) |
+| Crear/editar materiales | Sí | Sí | No |
+| Dar de baja materiales | Sí | Sí | No |
+| Agregar/quitar material de obra | Sí | Sí | No |
+| Registrar/eliminar compras | Sí | Sí | No |
+
+---
+
 ## [v1.2] — 2026-06-24
 
 **Iteración 2 — Módulo Personal**
@@ -109,8 +141,8 @@ Registro cronológico de cambios del proyecto, sincronizado con el [Plan de iter
 | fundamentos | 0 | Completado |
 | `v1.0` | 1 — MVP | Completado |
 | `v1.1` | Post-MVP (UI polish) | Completado |
-| `v1.2` | 2 — Personal | Pendiente |
-| `v1.3` | 3 — Materiales | Pendiente |
+| `v1.2` | 2 — Personal | Completado |
+| `v1.3` | 3 — Materiales | Completado |
 | `v1.4` | 4 — Finanzas + Panel completo | Pendiente |
 
 ---

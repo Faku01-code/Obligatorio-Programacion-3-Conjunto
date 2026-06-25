@@ -1,0 +1,45 @@
+@page "{id:int}"
+@model Sistema_Gestor_Obras_PagesFamilia.Pages.Materiales.EditModel
+@{
+    ViewData["Title"] = "Editar material";
+}
+
+<div class="page-header">
+    <div>
+        <h2>Editar material</h2>
+        <p class="text-muted">Modificar datos del insumo</p>
+    </div>
+</div>
+
+<div class="glass-panel content-card form-card">
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div class="alert alert-danger">@Model.ErrorMessage</div>
+    }
+
+    <form method="post">
+        <input type="hidden" asp-for="Input.IdMaterial" />
+
+        <div class="form-row-2">
+            <div class="form-group">
+                <label asp-for="Input.Nombre" class="form-label">Nombre *</label>
+                <input asp-for="Input.Nombre" class="form-control glass-input" />
+                <span asp-validation-for="Input.Nombre" class="text-danger small"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Unidad" class="form-label">Unidad *</label>
+                <input asp-for="Input.Unidad" class="form-control glass-input" />
+                <span asp-validation-for="Input.Unidad" class="text-danger small"></span>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <a asp-page="Index" class="btn btn-secondary">Cancelar</a>
+            <button type="submit" class="btn btn-light">Guardar</button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
