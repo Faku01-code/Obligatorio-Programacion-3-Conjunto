@@ -12,6 +12,10 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 <body>
+    <div class="page-loader" id="pageLoader">
+        <div class="loader-spinner"></div>
+    </div>
+
     @{
         var estaLogueado = Context.Session.GetInt32(Sistema_Gestor_Obras_PagesFamilia.Helpers.SessionKeys.UsuarioId) != null;
         var emailUsuario = Context.Session.GetString(Sistema_Gestor_Obras_PagesFamilia.Helpers.SessionKeys.UsuarioEmail) ?? "";
@@ -71,13 +75,16 @@
         </header>
     }
 
+    @if (TempData["Success"] != null)
+    {
+        <div class="toast-notification toast-success" id="appToast">
+            <i class="bi bi-check-circle-fill toast-icon"></i>
+            <span class="toast-message">@TempData["Success"]</span>
+            <button class="toast-close" onclick="dismissToast()" aria-label="Cerrar">&times;</button>
+        </div>
+    }
+
     <main class="@(estaLogueado ? "main-content" : "")">
-        @if (TempData["Success"] != null)
-        {
-            <div class="alert alert-success glass-alert">
-                <i class="bi bi-check-circle"></i> @TempData["Success"]
-            </div>
-        }
         @RenderBody()
     </main>
 
