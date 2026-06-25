@@ -1,0 +1,66 @@
+@page "{id:int}"
+@model Sistema_Gestor_Obras_PagesFamilia.Pages.Personal.EditModel
+@{
+    ViewData["Title"] = "Editar empleado";
+}
+
+<div class="page-header">
+    <div>
+        <h2>Editar empleado</h2>
+        <p class="text-muted">@Model.Input.Nombre</p>
+    </div>
+</div>
+
+<div class="glass-panel content-card form-card">
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div class="alert alert-danger">@Model.ErrorMessage</div>
+    }
+
+    <form method="post">
+        <input type="hidden" asp-for="Input.IdEmpleado" />
+
+        <div class="form-group">
+            <label asp-for="Input.Nombre" class="form-label">Nombre *</label>
+            <input asp-for="Input.Nombre" class="form-control glass-input" />
+            <span asp-validation-for="Input.Nombre" class="text-danger small"></span>
+        </div>
+
+        <div class="form-row-2">
+            <div class="form-group">
+                <label asp-for="Input.Tipo" class="form-label">Tipo *</label>
+                <select asp-for="Input.Tipo" class="form-control glass-input">
+                    <option value="FIJO">Fijo</option>
+                    <option value="SUBCONTRATISTA">Subcontratista</option>
+                </select>
+                <span asp-validation-for="Input.Tipo" class="text-danger small"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.IdOficio" class="form-label">Oficio</label>
+                <select asp-for="Input.IdOficio" asp-items="Model.Oficios" class="form-control glass-input">
+                    <option value="">— Sin oficio —</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-row-2">
+            <div class="form-group">
+                <label asp-for="Input.Documento" class="form-label">Documento</label>
+                <input asp-for="Input.Documento" class="form-control glass-input" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Telefono" class="form-label">Teléfono</label>
+                <input asp-for="Input.Telefono" class="form-control glass-input" />
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <a asp-page="Details" asp-route-id="@Model.Input.IdEmpleado" class="btn btn-secondary">Cancelar</a>
+            <button type="submit" class="btn btn-light">Guardar cambios</button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

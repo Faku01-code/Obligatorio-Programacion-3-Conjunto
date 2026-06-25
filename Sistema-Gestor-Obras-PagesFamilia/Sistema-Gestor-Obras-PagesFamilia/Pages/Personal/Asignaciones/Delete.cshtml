@@ -1,0 +1,59 @@
+@page "{id:int}"
+@model Sistema_Gestor_Obras_PagesFamilia.Pages.Personal.Asignaciones.DeleteModel
+@{
+    ViewData["Title"] = "Eliminar asignación";
+}
+
+<div class="page-header">
+    <div>
+        <h2>Eliminar asignación</h2>
+        <p class="text-muted">Esta acción no se puede deshacer</p>
+    </div>
+</div>
+
+<div class="glass-panel content-card form-card">
+    <div class="alert-delete">
+        <i class="bi bi-exclamation-triangle"></i>
+        ¿Confirma eliminar la asignación de
+        <strong>@Model.Asignacion.IdEmpleadoNavigation?.Nombre</strong>
+        en la obra <strong>@Model.Asignacion.IdObraNavigation?.Nombre</strong>?
+    </div>
+
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div class="alert alert-danger">@Model.ErrorMessage</div>
+    }
+
+    <div class="detail-grid">
+        <div class="detail-item">
+            <div class="detail-label">Tarea</div>
+            <div class="detail-value">@(Model.Asignacion.Tarea ?? "—")</div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label">Período</div>
+            <div class="detail-value">
+                @Model.Asignacion.FechaInicio.ToString("dd/MM/yyyy") —
+                @(Model.Asignacion.FechaFin?.ToString("dd/MM/yyyy") ?? "en curso")
+            </div>
+        </div>
+    </div>
+
+    <form method="post" class="form-actions">
+        <input type="hidden" asp-for="Asignacion.IdAsignacion" />
+        <input type="hidden" name="returnEmpleadoId" value="@Model.ReturnEmpleadoId" />
+        <input type="hidden" name="returnObraId" value="@Model.ReturnObraId" />
+        @if (Model.ReturnEmpleadoId.HasValue)
+        {
+            <a asp-page="/Personal/Details" asp-route-id="@Model.ReturnEmpleadoId" class="btn btn-secondary">Cancelar</a>
+        }
+        else if (Model.ReturnObraId.HasValue)
+        {
+            <a asp-page="/Obras/Details" asp-route-id="@Model.ReturnObraId" class="btn btn-secondary">Cancelar</a>
+        }
+        else
+        {
+            <a asp-page="/Personal/Index" class="btn btn-secondary">Cancelar</a>
+        }
+        <button type="submit" class="btn btn-danger">Eliminar</button>
+    </form>
+</div>

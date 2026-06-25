@@ -1,0 +1,41 @@
+@page "{id:int}"
+@model Sistema_Gestor_Obras_PagesFamilia.Pages.Personal.DeleteModel
+@{
+    ViewData["Title"] = "Dar de baja empleado";
+}
+
+<div class="page-header">
+    <div>
+        <h2>Dar de baja empleado</h2>
+        <p class="text-muted">Las asignaciones históricas se conservan</p>
+    </div>
+</div>
+
+<div class="glass-panel content-card form-card">
+    <div class="alert-delete">
+        <i class="bi bi-exclamation-triangle"></i>
+        ¿Confirma dar de baja a <strong>@Model.Empleado.Nombre</strong>?
+    </div>
+
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div class="alert alert-danger">@Model.ErrorMessage</div>
+    }
+
+    <div class="detail-grid">
+        <div class="detail-item">
+            <div class="detail-label">Tipo</div>
+            <div class="detail-value">@Model.Empleado.Tipo</div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label">Oficio</div>
+            <div class="detail-value">@(Model.Empleado.IdOficioNavigation?.Nombre ?? "—")</div>
+        </div>
+    </div>
+
+    <form method="post" class="form-actions">
+        <input type="hidden" asp-for="Empleado.IdEmpleado" />
+        <a asp-page="Details" asp-route-id="@Model.Empleado.IdEmpleado" class="btn btn-secondary">Cancelar</a>
+        <button type="submit" class="btn btn-danger">Confirmar baja</button>
+    </form>
+</div>

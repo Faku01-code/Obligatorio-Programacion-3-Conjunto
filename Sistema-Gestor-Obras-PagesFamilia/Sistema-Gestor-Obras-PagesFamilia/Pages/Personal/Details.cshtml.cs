@@ -2,20 +2,20 @@ using Microsoft.AspNetCore.Mvc;
 using Sistema_Gestor_Obras_PagesFamilia.Models;
 using Sistema_Gestor_Obras_PagesFamilia.Services;
 
-namespace Sistema_Gestor_Obras_PagesFamilia.Pages.Obras;
+namespace Sistema_Gestor_Obras_PagesFamilia.Pages.Personal;
 
 public class DetailsModel : AuthenticatedPageModel
 {
-    private readonly IObraService _obraService;
+    private readonly IEmpleadoService _empleadoService;
     private readonly IAsignacionService _asignacionService;
 
-    public DetailsModel(IObraService obraService, IAsignacionService asignacionService)
+    public DetailsModel(IEmpleadoService empleadoService, IAsignacionService asignacionService)
     {
-        _obraService = obraService;
+        _empleadoService = empleadoService;
         _asignacionService = asignacionService;
     }
 
-    public Obra Obra { get; set; } = null!;
+    public Empleado Empleado { get; set; } = null!;
     public IEnumerable<Asignacion> Asignaciones { get; set; } = [];
 
     public async Task<IActionResult> OnGetAsync(int id)
@@ -23,11 +23,11 @@ public class DetailsModel : AuthenticatedPageModel
         var redirect = RedirectIfNotAuthenticated();
         if (redirect != null) return redirect;
 
-        var obra = await _obraService.ObtenerPorIdAsync(id);
-        if (obra == null) return NotFound();
+        var empleado = await _empleadoService.ObtenerPorIdAsync(id);
+        if (empleado == null) return NotFound();
 
-        Obra = obra;
-        Asignaciones = await _asignacionService.ObtenerPorObraAsync(id);
+        Empleado = empleado;
+        Asignaciones = await _asignacionService.ObtenerPorEmpleadoAsync(id);
         return Page();
     }
 }

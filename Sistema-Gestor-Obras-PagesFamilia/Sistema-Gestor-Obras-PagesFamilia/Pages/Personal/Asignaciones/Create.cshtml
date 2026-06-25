@@ -1,0 +1,78 @@
+@page
+@model Sistema_Gestor_Obras_PagesFamilia.Pages.Personal.Asignaciones.CreateModel
+@{
+    ViewData["Title"] = "Nueva asignación";
+}
+
+<div class="page-header">
+    <div>
+        <h2>Nueva asignación</h2>
+        <p class="text-muted">Asignar empleado a una obra</p>
+    </div>
+</div>
+
+<div class="glass-panel content-card form-card">
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div class="alert alert-danger">@Model.ErrorMessage</div>
+    }
+
+    <form method="post">
+        <input type="hidden" name="returnEmpleadoId" value="@Model.ReturnEmpleadoId" />
+        <input type="hidden" name="returnObraId" value="@Model.ReturnObraId" />
+
+        <div class="form-row-2">
+            <div class="form-group">
+                <label asp-for="Input.IdEmpleado" class="form-label">Empleado *</label>
+                <select asp-for="Input.IdEmpleado" asp-items="Model.Empleados" class="form-control glass-input">
+                    <option value="">— Seleccionar —</option>
+                </select>
+                <span asp-validation-for="Input.IdEmpleado" class="text-danger small"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.IdObra" class="form-label">Obra *</label>
+                <select asp-for="Input.IdObra" asp-items="Model.Obras" class="form-control glass-input">
+                    <option value="">— Seleccionar —</option>
+                </select>
+                <span asp-validation-for="Input.IdObra" class="text-danger small"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Input.Tarea" class="form-label">Tarea</label>
+            <input asp-for="Input.Tarea" class="form-control glass-input" placeholder="Descripción breve (opcional)" />
+        </div>
+
+        <div class="form-row-2">
+            <div class="form-group">
+                <label asp-for="Input.FechaInicio" class="form-label">Fecha inicio *</label>
+                <input asp-for="Input.FechaInicio" type="date" class="form-control glass-input" />
+                <span asp-validation-for="Input.FechaInicio" class="text-danger small"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.FechaFin" class="form-label">Fecha fin</label>
+                <input asp-for="Input.FechaFin" type="date" class="form-control glass-input" />
+            </div>
+        </div>
+
+        <div class="form-actions">
+            @if (Model.ReturnEmpleadoId.HasValue)
+            {
+                <a asp-page="/Personal/Details" asp-route-id="@Model.ReturnEmpleadoId" class="btn btn-secondary">Cancelar</a>
+            }
+            else if (Model.ReturnObraId.HasValue)
+            {
+                <a asp-page="/Obras/Details" asp-route-id="@Model.ReturnObraId" class="btn btn-secondary">Cancelar</a>
+            }
+            else
+            {
+                <a asp-page="/Personal/Index" class="btn btn-secondary">Cancelar</a>
+            }
+            <button type="submit" class="btn btn-light">Guardar</button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

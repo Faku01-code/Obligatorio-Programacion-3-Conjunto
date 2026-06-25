@@ -4,6 +4,34 @@ Registro cronológico de cambios del proyecto, sincronizado con el [Plan de iter
 
 ---
 
+## [v1.2] — 2026-06-24
+
+**Iteración 2 — Módulo Personal**
+
+### Added
+- **Empleados:** ABM completo (`Personal/Index`, `Create`, `Edit`, `Details`, `Delete` con baja lógica). Campos: nombre, tipo (FIJO/SUBCONTRATISTA), oficio, documento (único), teléfono.
+- **Asignaciones:** alta y baja de asignaciones empleado→obra (`Personal/Asignaciones/Create`, `Delete`). Validación de fechas (`fecha_fin >= fecha_inicio`). Protección contra eliminación si existen registros de horas.
+- **Repositories:** `IOficioRepository`, `OficioRepository`, `IEmpleadoRepository`, `EmpleadoRepository`, `IAsignacionRepository`, `AsignacionRepository`.
+- **Services:** `IOficioService`, `OficioService`, `IEmpleadoService`, `EmpleadoService`, `IAsignacionService`, `AsignacionService`.
+- **ViewModels:** `EmpleadoFormViewModel`, `AsignacionFormViewModel`.
+
+### Changed
+- **`_Layout.cshtml`:** link Personal habilitado (`asp-page="/Personal/Index"`).
+- **`Obras/Details`:** nueva sección "Personal asignado" con tabla de asignaciones y botón "Asignar empleado" (solo Admin/Capataz sobre obras activas).
+- **`Pages/Index.cshtml.cs` (Dashboard):** contador de empleados migrado de `IRepository<Empleado>` a `IEmpleadoService.ContarActivosAsync()`.
+- **`Program.cs`:** registro de los 3 nuevos repositorios y 3 nuevos services en el contenedor DI.
+
+### Permisos por rol (Iteración 2)
+
+| Acción | Administrador | Capataz | Consulta |
+|--------|---------------|---------|----------|
+| Ver listado de empleados | Sí (todos) | Sí (activos) | Sí (activos) |
+| Crear/editar empleados | Sí | Sí | No |
+| Dar de baja empleados | Sí | Sí | No |
+| Crear/eliminar asignaciones | Sí | Sí | No |
+
+---
+
 ## [v1.1] — 2026-06-24
 
 **Ajustes post-MVP — Login split-screen + pulido UI**
@@ -78,11 +106,12 @@ Registro cronológico de cambios del proyecto, sincronizado con el [Plan de iter
 
 | Versión | Iteración | Estado |
 |---------|-----------|--------|
-| `v0.0-fundamentos` | 0 | Completado |
-| `v0.1-mvp` | 1 | Completado |
-| `v0.2-personal` | 2 | Pendiente |
-| `v0.3-materiales` | 3 | Pendiente |
-| `v1.0` | 4 | Pendiente |
+| fundamentos | 0 | Completado |
+| `v1.0` | 1 — MVP | Completado |
+| `v1.1` | Post-MVP (UI polish) | Completado |
+| `v1.2` | 2 — Personal | Pendiente |
+| `v1.3` | 3 — Materiales | Pendiente |
+| `v1.4` | 4 — Finanzas + Panel completo | Pendiente |
 
 ---
 

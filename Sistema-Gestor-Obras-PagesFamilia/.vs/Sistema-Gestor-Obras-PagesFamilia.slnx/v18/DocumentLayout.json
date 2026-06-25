@@ -1,12 +1,7 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\Juan Meny\\Documents\\GitHub\\Obligatorio-Programacion-3-Conjunto\\Sistema-Gestor-Obras-PagesFamilia\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{86E793E3-7EAB-39D9-8C50-0B069D23ADA0}|Sistema-Gestor-Obras-PagesFamilia\\Sistema-Gestor-Obras-PagesFamilia.csproj|c:\\users\\juan meny\\documents\\github\\obligatorio-programacion-3-conjunto\\sistema-gestor-obras-pagesfamilia\\sistema-gestor-obras-pagesfamilia\\.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}",
-      "RelativeMoniker": "D:0:0:{86E793E3-7EAB-39D9-8C50-0B069D23ADA0}|Sistema-Gestor-Obras-PagesFamilia\\Sistema-Gestor-Obras-PagesFamilia.csproj|solutionrelative:sistema-gestor-obras-pagesfamilia\\.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -14,7 +9,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": -1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -27,19 +22,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": ".gitignore",
-              "DocumentMoniker": "C:\\Users\\Juan Meny\\Documents\\GitHub\\Obligatorio-Programacion-3-Conjunto\\Sistema-Gestor-Obras-PagesFamilia\\Sistema-Gestor-Obras-PagesFamilia\\.gitignore",
-              "RelativeDocumentMoniker": "Sistema-Gestor-Obras-PagesFamilia\\.gitignore",
-              "ToolTip": "C:\\Users\\Juan Meny\\Documents\\GitHub\\Obligatorio-Programacion-3-Conjunto\\Sistema-Gestor-Obras-PagesFamilia\\Sistema-Gestor-Obras-PagesFamilia\\.gitignore",
-              "RelativeToolTip": "Sistema-Gestor-Obras-PagesFamilia\\.gitignore",
-              "ViewState": "AgIAAJAAAAAAAAAAAAAAADMAAAAOAAAAAAAAAA==",
-              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACfSURBVDhPY2SAgsry0vsMDP8VoFwsgPHBn38Mgd3d3RegAkDl//9DWSADSv7/\u002BvULJwbJNzXUvi8tLTWAagEDJihNFEhITBbg5ebYj2wIC5RGAadOnYKyEEBAQIBh\u002BrQpYCYLE8N\u002BIC0I4sABIS8gY5BaqDbSvIANYDUA5AVsGC8Y9QL5YBh4ASk7FwOzMyOe7IwM/j9o7\u002BxVZGBgYAAAs2YZ9LO6GeYAAAAASUVORK5CYII=",
-              "WhenOpened": "2026-06-24T01:50:48.304Z",
-              "EditorCaption": ""
             }
           ]
         },

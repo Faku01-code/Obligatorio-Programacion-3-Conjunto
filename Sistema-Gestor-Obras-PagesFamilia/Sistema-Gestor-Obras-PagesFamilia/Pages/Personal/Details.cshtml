@@ -1,0 +1,112 @@
+@page "{id:int}"
+@model Sistema_Gestor_Obras_PagesFamilia.Pages.Personal.DetailsModel
+@{
+    ViewData["Title"] = Model.Empleado.Nombre;
+}
+
+<div class="page-header">
+    <div>
+        <h2>@Model.Empleado.Nombre</h2>
+        <p class="text-muted">@Model.Empleado.Tipo · @(Model.Empleado.IdOficioNavigation?.Nombre ?? "Sin oficio")</p>
+    </div>
+    <div style="display:flex; gap: 0.5rem;">
+        @if (Model.PuedeEscribir && Model.Empleado.Activo == true)
+        {
+            <a asp-page="Edit" asp-route-id="@Model.Empleado.IdEmpleado" class="btn btn-light">
+                <i class="bi bi-pencil"></i> Editar
+            </a>
+        }
+        <a asp-page="Index" class="btn btn-secondary">← Volver</a>
+    </div>
+</div>
+
+<div class="glass-panel content-card">
+    <div class="detail-grid">
+        <div class="detail-item">
+            <div class="detail-label">Estado</div>
+            <div class="detail-value">
+                @if (Model.Empleado.Activo == true)
+                {
+                    <span class="badge-active">Activo</span>
+                }
+                else
+                {
+                    <span class="badge-inactive">Dado de baja (@Model.Empleado.FechaBaja?.ToString("dd/MM/yyyy"))</span>
+                }
+            </div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label">Documento</div>
+            <div class="detail-value">@(Model.Empleado.Documento ?? "—")</div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label">Teléfono</div>
+            <div class="detail-value">@(Model.Empleado.Telefono ?? "—")</div>
+        </div>
+    </div>
+</div>
+
+<div class="glass-panel content-card" style="margin-top: 1.5rem;">
+    <div class="section-header">
+        <h3>Asignaciones a obras</h3>
+        @if (Model.PuedeEscribir && Model.Empleado.Activo == true)
+        {
+            <a asp-page="/Personal/Asignaciones/Create"
+               asp-route-empleadoId="@Model.Empleado.IdEmpleado"
+               class="btn btn-light btn-sm">
+                <i class="bi bi-plus-lg"></i> Asignar a obra
+            </a>
+        }
+    </div>
+
+    @if (Model.Asignaciones.Any())
+    {
+        <table class="table-dark-custom">
+            <thead>
+                <tr>
+                    <th>Obra</th>
+                    <th>Tarea</th>
+                    <th>Desde</th>
+                    <th>Hasta</th>
+                    @if (Model.PuedeEscribir)
+                    {
+                        <th class="text-center">Acciones</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var a in Model.Asignaciones)
+                {
+                    <tr>
+                        <td>
+                            <a asp-page="/Obras/Details" asp-route-id="@a.IdObra">
+                                @a.IdObraNavigation?.Nombre
+                            </a>
+                        </td>
+                        <td>@(a.Tarea ?? "—")</td>
+                        <td>@a.FechaInicio.ToString("dd/MM/yyyy")</td>
+                        <td>@(a.FechaFin?.ToString("dd/MM/yyyy") ?? "en curso")</td>
+                        @if (Model.PuedeEscribir)
+                        {
+                            <td class="text-center actions-cell">
+                                <a asp-page="/Personal/Asignaciones/Delete"
+                                   asp-route-id="@a.IdAsignacion"
+                                   asp-route-returnEmpleadoId="@Model.Empleado.IdEmpleado"
+                                   class="btn-icon btn-icon-danger" title="Eliminar asignación">
+                                    <i class="bi bi-x-lg"></i>
+                                </a>
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="empty-state">
+            <i class="bi bi-calendar-x"></i>
+            <p>Sin asignaciones registradas</p>
+        </div>
+    }
+</div>

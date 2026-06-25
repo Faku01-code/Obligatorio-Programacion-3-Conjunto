@@ -64,3 +64,70 @@
         }
     </div>
 </div>
+
+<div class="glass-panel content-card" style="margin-top: 1.5rem;">
+    <div class="section-header">
+        <h3>Personal asignado</h3>
+        @if (Model.PuedeEscribir && Model.Obra.Activo == true)
+        {
+            <a asp-page="/Personal/Asignaciones/Create"
+               asp-route-obraId="@Model.Obra.IdObra"
+               class="btn btn-light btn-sm">
+                <i class="bi bi-plus-lg"></i> Asignar empleado
+            </a>
+        }
+    </div>
+
+    @if (Model.Asignaciones.Any())
+    {
+        <table class="table-dark-custom">
+            <thead>
+                <tr>
+                    <th>Empleado</th>
+                    <th>Oficio</th>
+                    <th>Tarea</th>
+                    <th>Desde</th>
+                    <th>Hasta</th>
+                    @if (Model.PuedeEscribir)
+                    {
+                        <th class="text-center">Acciones</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var a in Model.Asignaciones)
+                {
+                    <tr>
+                        <td>
+                            <a asp-page="/Personal/Details" asp-route-id="@a.IdEmpleado">
+                                @a.IdEmpleadoNavigation?.Nombre
+                            </a>
+                        </td>
+                        <td>@(a.IdEmpleadoNavigation?.IdOficioNavigation?.Nombre ?? "—")</td>
+                        <td>@(a.Tarea ?? "—")</td>
+                        <td>@a.FechaInicio.ToString("dd/MM/yyyy")</td>
+                        <td>@(a.FechaFin?.ToString("dd/MM/yyyy") ?? "en curso")</td>
+                        @if (Model.PuedeEscribir)
+                        {
+                            <td class="text-center actions-cell">
+                                <a asp-page="/Personal/Asignaciones/Delete"
+                                   asp-route-id="@a.IdAsignacion"
+                                   asp-route-returnObraId="@Model.Obra.IdObra"
+                                   class="btn-icon btn-icon-danger" title="Eliminar asignación">
+                                    <i class="bi bi-x-lg"></i>
+                                </a>
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="empty-state">
+            <i class="bi bi-people"></i>
+            <p>Sin personal asignado a esta obra</p>
+        </div>
+    }
+</div>

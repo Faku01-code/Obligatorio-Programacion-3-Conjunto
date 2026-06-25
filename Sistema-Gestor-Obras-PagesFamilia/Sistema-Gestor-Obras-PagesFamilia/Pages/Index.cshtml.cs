@@ -1,6 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Sistema_Gestor_Obras_PagesFamilia.Models;
-using Sistema_Gestor_Obras_PagesFamilia.Repositories;
 using Sistema_Gestor_Obras_PagesFamilia.Services;
 using Sistema_Gestor_Obras_PagesFamilia.ViewModels;
 
@@ -10,16 +8,16 @@ public class IndexModel : AuthenticatedPageModel
 {
     private readonly IObraService _obraService;
     private readonly IClienteService _clienteService;
-    private readonly IRepository<Empleado> _empleadoRepository;
+    private readonly IEmpleadoService _empleadoService;
 
     public IndexModel(
         IObraService obraService,
         IClienteService clienteService,
-        IRepository<Empleado> empleadoRepository)
+        IEmpleadoService empleadoService)
     {
         _obraService = obraService;
         _clienteService = clienteService;
-        _empleadoRepository = empleadoRepository;
+        _empleadoService = empleadoService;
     }
 
     public DashboardViewModel Dashboard { get; set; } = new();
@@ -30,13 +28,12 @@ public class IndexModel : AuthenticatedPageModel
         if (redirect != null) return redirect;
 
         var obras = (await _obraService.ObtenerTodasAsync()).ToList();
-        var empleados = (await _empleadoRepository.GetAllAsync()).ToList();
 
         Dashboard = new DashboardViewModel
         {
             TotalObrasActivas = obras.Count,
             TotalClientes = (await _clienteService.ObtenerActivosAsync()).Count(),
-            TotalEmpleados = empleados.Count(e => e.Activo == true),
+            TotalEmpleados = await _empleadoService.ContarActivosAsync(),
             ObrasRecientes = obras.Take(5).Select(o => new ObraResumenViewModel
             {
                 IdObra = o.IdObra,

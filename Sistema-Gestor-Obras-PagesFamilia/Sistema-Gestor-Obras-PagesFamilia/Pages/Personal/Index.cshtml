@@ -1,0 +1,90 @@
+@page
+@model Sistema_Gestor_Obras_PagesFamilia.Pages.Personal.IndexModel
+@{
+    ViewData["Title"] = "Personal";
+}
+
+<div class="page-header">
+    <div>
+        <h2>Personal</h2>
+        <p class="text-muted">Empleados fijos y subcontratistas</p>
+    </div>
+    @if (Model.PuedeEscribir)
+    {
+        <a asp-page="Create" class="btn btn-light">
+            <i class="bi bi-plus-lg"></i> Nuevo empleado
+        </a>
+    }
+</div>
+
+<div class="glass-panel content-card">
+    @if (Model.Empleados.Any())
+    {
+        <table class="table-dark-custom">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Tipo</th>
+                    <th>Oficio</th>
+                    <th>Documento</th>
+                    <th>Teléfono</th>
+                    @if (Model.EsAdministrador)
+                    {
+                        <th>Activo</th>
+                    }
+                    <th class="text-center">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var emp in Model.Empleados)
+                {
+                    <tr class="@(emp.Activo == false ? "row-inactive" : "")">
+                        <td><strong>@emp.Nombre</strong></td>
+                        <td><span class="status-badge">@emp.Tipo</span></td>
+                        <td>@(emp.IdOficioNavigation?.Nombre ?? "—")</td>
+                        <td>@(emp.Documento ?? "—")</td>
+                        <td>@(emp.Telefono ?? "—")</td>
+                        @if (Model.EsAdministrador)
+                        {
+                            <td>
+                                @if (emp.Activo == true)
+                                {
+                                    <span class="badge-active">Sí</span>
+                                }
+                                else
+                                {
+                                    <span class="badge-inactive">No</span>
+                                }
+                            </td>
+                        }
+                        <td class="text-center actions-cell">
+                            <a asp-page="Details" asp-route-id="@emp.IdEmpleado" class="btn-icon" title="Ver">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                            @if (Model.PuedeEscribir && emp.Activo == true)
+                            {
+                                <a asp-page="Edit" asp-route-id="@emp.IdEmpleado" class="btn-icon" title="Editar">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <a asp-page="Delete" asp-route-id="@emp.IdEmpleado" class="btn-icon btn-icon-danger" title="Dar de baja">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="empty-state">
+            <i class="bi bi-people"></i>
+            <p>No hay empleados registrados</p>
+            @if (Model.PuedeEscribir)
+            {
+                <a asp-page="Create" class="btn btn-light">Agregar primer empleado</a>
+            }
+        </div>
+    }
+</div>
