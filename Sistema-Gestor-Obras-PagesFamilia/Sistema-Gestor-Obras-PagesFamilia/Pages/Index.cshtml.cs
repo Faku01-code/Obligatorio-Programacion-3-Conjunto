@@ -9,18 +9,24 @@ public class IndexModel : AuthenticatedPageModel
     private readonly IObraService _obraService;
     private readonly IClienteService _clienteService;
     private readonly IEmpleadoService _empleadoService;
+    private readonly IMovimientoFinService _movimientoFinService;
 
     public IndexModel(
         IObraService obraService,
         IClienteService clienteService,
-        IEmpleadoService empleadoService)
+        IEmpleadoService empleadoService,
+        IMovimientoFinService movimientoFinService)
     {
         _obraService = obraService;
         _clienteService = clienteService;
         _empleadoService = empleadoService;
+        _movimientoFinService = movimientoFinService;
     }
 
     public DashboardViewModel Dashboard { get; set; } = new();
+    public decimal TotalIngresos { get; set; }
+    public decimal TotalEgresos { get; set; }
+    public decimal Balance => TotalIngresos - TotalEgresos;
 
     public async Task<IActionResult> OnGetAsync()
     {
@@ -44,6 +50,7 @@ public class IndexModel : AuthenticatedPageModel
             }).ToList()
         };
 
+        (TotalIngresos, TotalEgresos) = await _movimientoFinService.ObtenerResumenGlobalAsync();
         return Page();
     }
 }

@@ -61,7 +61,7 @@
                     <i class="bi bi-box-seam"></i>
                     <span>Materiales</span>
                 </a>
-                <a class="topbar-btn disabled">
+                <a asp-page="/Finanzas/Index" class="topbar-btn">
                     <i class="bi bi-cash-stack"></i>
                     <span>Finanzas</span>
                 </a>
@@ -81,6 +81,14 @@
         <div class="toast-notification toast-success" id="appToast">
             <i class="bi bi-check-circle-fill toast-icon"></i>
             <span class="toast-message">@TempData["Success"]</span>
+            <button class="toast-close" onclick="dismissToast()" aria-label="Cerrar">&times;</button>
+        </div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="toast-notification toast-error" id="appToast">
+            <i class="bi bi-exclamation-circle-fill toast-icon"></i>
+            <span class="toast-message">@TempData["Error"]</span>
             <button class="toast-close" onclick="dismissToast()" aria-label="Cerrar">&times;</button>
         </div>
     }

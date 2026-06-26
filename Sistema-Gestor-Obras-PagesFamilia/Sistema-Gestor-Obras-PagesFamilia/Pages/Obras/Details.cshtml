@@ -238,3 +238,98 @@
         </div>
     }
 </div>
+
+<div class="glass-panel content-card" style="margin-top: 1.5rem;">
+    <div class="section-header">
+        <h3>Resumen Financiero</h3>
+        @if (Model.PuedeEscribir && Model.Obra.Activo == true)
+        {
+            <a asp-page="/Finanzas/Create" asp-route-obraId="@Model.Obra.IdObra" class="btn btn-light btn-sm">
+                <i class="bi bi-plus-lg"></i> Registrar movimiento
+            </a>
+        }
+    </div>
+
+    <div class="fin-resumen-grid">
+        <div class="fin-resumen-item">
+            <div class="fin-resumen-label">Ingresos</div>
+            <div class="fin-resumen-monto fin-num-ingreso">$@Model.TotalIngresosObra.ToString("N0")</div>
+        </div>
+        <div class="fin-resumen-item">
+            <div class="fin-resumen-label">Egresos</div>
+            <div class="fin-resumen-monto fin-num-egreso">$@Model.TotalEgresosObra.ToString("N0")</div>
+        </div>
+        <div class="fin-resumen-item">
+            <div class="fin-resumen-label">Balance</div>
+            <div class="fin-resumen-monto @(Model.BalanceObra >= 0 ? "fin-num-ingreso" : "fin-num-egreso")">
+                $@Model.BalanceObra.ToString("N0")
+            </div>
+        </div>
+    </div>
+
+    @if (Model.Movimientos.Any())
+    {
+        <table class="table-dark-custom" style="margin-top: 1rem;">
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Categoría</th>
+                    <th>Tipo</th>
+                    <th>Descripción</th>
+                    <th class="text-end">Monto</th>
+                    <th class="text-center">Origen</th>
+                    @if (Model.EsAdministrador)
+                    {
+                        <th class="text-center">Acción</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var mov in Model.Movimientos)
+                {
+                    var esIngreso = mov.IdCategoriaNavigation?.Tipo == "INGRESO";
+                    var esManual = mov.Compra == null;
+                    <tr>
+                        <td>@mov.Fecha.ToString("dd/MM/yyyy")</td>
+                        <td>@mov.IdCategoriaNavigation?.Nombre</td>
+                        <td>
+                            <span class="status-badge @(esIngreso ? "badge-ingreso" : "badge-egreso")">
+                                @(esIngreso ? "Ingreso" : "Egreso")
+                            </span>
+                        </td>
+                        <td>@(mov.Descripcion ?? "—")</td>
+                        <td class="text-end"><strong>$@mov.Monto.ToString("N0")</strong></td>
+                        <td class="text-center">
+                            <span class="status-badge @(esManual ? "badge-manual" : "badge-compra")">
+                                @(esManual ? "Manual" : "Compra")
+                            </span>
+                        </td>
+                        @if (Model.EsAdministrador)
+                        {
+                            <td class="text-center">
+                                @if (esManual)
+                                {
+                                    <a asp-page="/Finanzas/Delete" asp-route-id="@mov.IdMovimiento"
+                                       class="btn-icon btn-icon-danger" title="Eliminar movimiento">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+                                }
+                                else
+                                {
+                                    <span style="color:var(--text-muted); font-size:18px;" title="Eliminá la compra para borrar este movimiento">—</span>
+                                }
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="empty-state" style="padding: 24px 0 8px;">
+            <i class="bi bi-cash-stack"></i>
+            <p>Sin movimientos financieros en esta obra</p>
+        </div>
+    }
+</div>

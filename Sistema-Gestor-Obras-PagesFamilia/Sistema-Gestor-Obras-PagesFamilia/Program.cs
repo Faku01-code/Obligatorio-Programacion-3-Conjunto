@@ -37,6 +37,8 @@ builder.Services.AddScoped<IAsignacionService, AsignacionService>();
 builder.Services.AddScoped<IMaterialService, MaterialService>();
 builder.Services.AddScoped<IObraMaterialService, ObraMaterialService>();
 builder.Services.AddScoped<ICompraService, CompraService>();
+builder.Services.AddScoped<IMovimientoFinRepository, MovimientoFinRepository>();
+builder.Services.AddScoped<IMovimientoFinService, MovimientoFinService>();
 
 builder.Services.AddSession(options =>
 {

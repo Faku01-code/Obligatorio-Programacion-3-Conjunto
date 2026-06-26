@@ -4,7 +4,46 @@ Registro cronológico de cambios del proyecto, sincronizado con el [Plan de iter
 
 ---
 
-## [v1.3] — 2026-06-25
+## [v1.3] — 2026-06-26
+
+**Iteración 4 — Módulo Finanzas + Panel completo**
+
+### Added
+- **Módulo Finanzas:** ABM de movimientos financieros manuales (`Finanzas/Index`, `Create`, `Delete`). Campos: obra, categoría, monto, fecha, descripción opcional.
+- **Toast de error:** soporte para `TempData["Error"]` en `_Layout.cshtml` con estilo rojo consistente con el sistema de toasts existente.
+- **IMovimientoFinRepository / MovimientoFinRepository:** métodos `GetAllWithDetailsAsync`, `GetByObraIdAsync`, `GetByIdWithDetailsAsync` con includes (obra, categoría, usuario, compra).
+- **IMovimientoFinService / MovimientoFinService:** CRUD manual + protección contra eliminación de movimientos generados por compras + cálculo de resúmenes (ingresos vs egresos).
+- **MovimientoFinFormViewModel:** validaciones de rango para IdObra, IdCategoria y Monto.
+- **CSS:** clases `.badge-ingreso`, `.badge-egreso`, `.badge-manual`, `.badge-compra`, `.fin-num-ingreso/egreso`, `.fin-resumen-grid`, `.toast-error`.
+
+### Changed
+- **`_Layout.cshtml`:** link Finanzas habilitado (`asp-page="/Finanzas/Index"`). Agregado toast de error.
+- **Dashboard (`Index.cshtml.cs` + `Index.cshtml`):** inyección de `IMovimientoFinService`. Dos nuevas stat-cards: Total Ingresos y Total Egresos globales.
+- **`Obras/Details.cshtml.cs`:** inyección de `IMovimientoFinService`; carga de `Movimientos`, `TotalIngresosObra`, `TotalEgresosObra`, `BalanceObra` en `OnGetAsync`.
+- **`Obras/Details.cshtml`:** nueva sección "Resumen Financiero" con tarjetas de totales + tabla de movimientos por obra (tipo, categoría, monto, origen manual/compra).
+- **`Program.cs`:** registro de `IMovimientoFinRepository` y `IMovimientoFinService` en el contenedor DI.
+
+### Permisos por rol (Iteración 4)
+
+| Acción | Administrador | Capataz | Consulta |
+|--------|---------------|---------|----------|
+| Ver módulo Finanzas | Sí | Sí | Sí |
+| Registrar movimiento manual | Sí | Sí | No |
+| Eliminar movimiento manual | Sí | No | No |
+| Ver resumen financiero en obra | Sí | Sí | Sí |
+
+---
+
+## [v1.2.1] — 2026-06-25
+
+**Favicon**
+
+### Added
+- **Favicon:** tag `<link rel="icon">` explícito con `asp-append-version="true"` en `_Layout.cshtml` para cache-busting automático.
+
+---
+
+## [v1.2] — 2026-06-25
 
 **Iteración 3 — Módulo Materiales**
 
@@ -36,7 +75,23 @@ Registro cronológico de cambios del proyecto, sincronizado con el [Plan de iter
 
 ---
 
-## [v1.2] — 2026-06-24
+## [v1.1.1] — 2026-06-25
+
+**Fixes y mejoras de UX**
+
+### Added
+- **Toast notifications:** mensajes de éxito convertidos a popup flotante (top-right, glassmorphism, auto-dismiss 4s, botón ×). Bootstrap `.text-muted` sobrescrito con `!important` para contraste correcto.
+- **Page loader:** overlay circular animado de 1.5s en cada cambio de página (fade-in al cargar, fade-out al salir).
+- **Login spinner:** botón "Ingresar" muestra spinner inline al enviar el formulario. Ancho cambiado de `w-100` a `min-width: 160px` centrado.
+
+### Changed
+- **`site.css`:** variable `--text-muted` de `0.38` → `0.55` de opacidad. Nuevas clases: `.toast-notification`, `.toast-success`, `.toast-icon`, `.toast-message`, `.toast-close`, `.page-loader`, `.loader-spinner`, `.btn-spinner`. Animaciones `@keyframes toastSlideIn`, `toastFadeOut`, `spin`.
+- **`site.js`:** función global `dismissToast()`. Lógica de auto-hide del toast (4s). Lógica del page loader (muestra en carga 1.5s + en clicks de links). Lógica del spinner de login (verifica ausencia de errores de validación antes de activar).
+- **`Login.cshtml`:** botón submit: removido `w-100`, agregado `id="loginBtn"`.
+
+---
+
+## [v1.1] — 2026-06-24
 
 **Iteración 2 — Módulo Personal**
 
@@ -64,7 +119,7 @@ Registro cronológico de cambios del proyecto, sincronizado con el [Plan de iter
 
 ---
 
-## [v1.1] — 2026-06-24
+## [v1.0.1] — 2026-06-24
 
 **Ajustes post-MVP — Login split-screen + pulido UI**
 
@@ -84,7 +139,7 @@ Registro cronológico de cambios del proyecto, sincronizado con el [Plan de iter
 
 ---
 
-## [v0.1-mvp] — 2026-06-24
+## [v1.0] — 2026-06-24
 
 **Iteración 1 — MVP (entrega inicial usable)**
 
@@ -140,10 +195,12 @@ Registro cronológico de cambios del proyecto, sincronizado con el [Plan de iter
 |---------|-----------|--------|
 | fundamentos | 0 | Completado |
 | `v1.0` | 1 — MVP | Completado |
-| `v1.1` | Post-MVP (UI polish) | Completado |
-| `v1.2` | 2 — Personal | Completado |
-| `v1.3` | 3 — Materiales | Completado |
-| `v1.4` | 4 — Finanzas + Panel completo | Pendiente |
+| `v1.0.1` | Post-MVP (UI polish) | Completado |
+| `v1.1` | 2 — Personal | Completado |
+| `v1.1.1` | UX fixes | Completado |
+| `v1.2` | 3 — Materiales | Completado |
+| `v1.2.1` | Favicon | Completado |
+| `v1.3` | 4 — Finanzas + Panel completo | Completado |
 
 ---
 

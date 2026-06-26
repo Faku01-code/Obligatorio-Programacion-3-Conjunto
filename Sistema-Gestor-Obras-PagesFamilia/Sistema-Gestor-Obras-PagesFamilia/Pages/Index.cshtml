@@ -39,6 +39,20 @@
             <div class="stat-label">Clientes</div>
         </div>
     </div>
+    <div class="glass-panel stat-card">
+        <div class="stat-icon fin-icon-ingreso"><i class="bi bi-graph-up-arrow"></i></div>
+        <div class="stat-info">
+            <div class="stat-number fin-num-ingreso">$@Model.TotalIngresos.ToString("N0")</div>
+            <div class="stat-label">Ingresos</div>
+        </div>
+    </div>
+    <div class="glass-panel stat-card">
+        <div class="stat-icon fin-icon-egreso"><i class="bi bi-graph-down-arrow"></i></div>
+        <div class="stat-info">
+            <div class="stat-number fin-num-egreso">$@Model.TotalEgresos.ToString("N0")</div>
+            <div class="stat-label">Egresos</div>
+        </div>
+    </div>
 </div>
 
 <div class="glass-panel content-card">

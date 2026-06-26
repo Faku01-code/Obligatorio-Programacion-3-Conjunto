@@ -1,0 +1,66 @@
+@page
+@model Sistema_Gestor_Obras_PagesFamilia.Pages.Finanzas.DeleteModel
+@{
+    ViewData["Title"] = "Eliminar Movimiento";
+    var esIngreso = Model.Movimiento.IdCategoriaNavigation?.Tipo == "INGRESO";
+}
+
+<div class="page-header">
+    <div>
+        <h2>Eliminar Movimiento</h2>
+        <p class="text-muted">Esta acción no se puede deshacer</p>
+    </div>
+    <a asp-page="/Finanzas/Index" class="btn btn-sm btn-outline-light">
+        <i class="bi bi-arrow-left"></i> Volver
+    </a>
+</div>
+
+<div class="glass-panel content-card" style="max-width:500px">
+    <p class="mb-4" style="color: rgba(255,255,255,0.75)">
+        ¿Confirmar la eliminación del siguiente movimiento?
+    </p>
+
+    <div class="detail-grid mb-4">
+        <div class="detail-item">
+            <div class="detail-label">Obra</div>
+            <div class="detail-value">@Model.Movimiento.IdObraNavigation?.Nombre</div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label">Categoría</div>
+            <div class="detail-value">@Model.Movimiento.IdCategoriaNavigation?.Nombre</div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label">Tipo</div>
+            <div class="detail-value">
+                <span class="status-badge @(esIngreso ? "badge-ingreso" : "badge-egreso")">
+                    @(esIngreso ? "Ingreso" : "Egreso")
+                </span>
+            </div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label">Monto</div>
+            <div class="detail-value">$@Model.Movimiento.Monto.ToString("N0")</div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label">Fecha</div>
+            <div class="detail-value">@Model.Movimiento.Fecha.ToString("dd/MM/yyyy")</div>
+        </div>
+        @if (!string.IsNullOrEmpty(Model.Movimiento.Descripcion))
+        {
+            <div class="detail-item">
+                <div class="detail-label">Descripción</div>
+                <div class="detail-value">@Model.Movimiento.Descripcion</div>
+            </div>
+        }
+    </div>
+
+    <form method="post">
+        <input type="hidden" name="id" value="@Model.Movimiento.IdMovimiento" />
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-danger">
+                <i class="bi bi-trash"></i> Eliminar
+            </button>
+            <a asp-page="/Finanzas/Index" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>

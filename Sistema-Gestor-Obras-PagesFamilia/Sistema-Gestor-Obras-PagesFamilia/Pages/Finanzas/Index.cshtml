@@ -1,0 +1,128 @@
+@page
+@model Sistema_Gestor_Obras_PagesFamilia.Pages.Finanzas.IndexModel
+@{
+    ViewData["Title"] = "Finanzas";
+}
+
+<div class="page-header">
+    <div>
+        <h2>Finanzas</h2>
+        <p class="text-muted">Movimientos financieros de todas las obras</p>
+    </div>
+    @if (Model.PuedeEscribir)
+    {
+        <a asp-page="/Finanzas/Create" class="btn btn-light">
+            <i class="bi bi-plus-lg"></i> Nuevo movimiento
+        </a>
+    }
+</div>
+
+<div class="stats-grid">
+    <div class="glass-panel stat-card">
+        <div class="stat-icon" style="color: #4ade80"><i class="bi bi-graph-up-arrow"></i></div>
+        <div class="stat-info">
+            <div class="stat-number fin-num-ingreso">$@Model.TotalIngresos.ToString("N0")</div>
+            <div class="stat-label">Total Ingresos</div>
+        </div>
+    </div>
+    <div class="glass-panel stat-card">
+        <div class="stat-icon" style="color: #f87171"><i class="bi bi-graph-down-arrow"></i></div>
+        <div class="stat-info">
+            <div class="stat-number fin-num-egreso">$@Model.TotalEgresos.ToString("N0")</div>
+            <div class="stat-label">Total Egresos</div>
+        </div>
+    </div>
+    <div class="glass-panel stat-card">
+        <div class="stat-icon @(Model.Balance >= 0 ? "fin-icon-ingreso" : "fin-icon-egreso")">
+            <i class="bi bi-cash-stack"></i>
+        </div>
+        <div class="stat-info">
+            <div class="stat-number @(Model.Balance >= 0 ? "fin-num-ingreso" : "fin-num-egreso")">
+                $@Model.Balance.ToString("N0")
+            </div>
+            <div class="stat-label">Balance</div>
+        </div>
+    </div>
+</div>
+
+<div class="glass-panel content-card">
+    <div class="section-header">
+        <h3>Historial de Movimientos</h3>
+    </div>
+
+    @if (Model.Movimientos.Any())
+    {
+        <table class="table-dark-custom">
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Obra</th>
+                    <th>Categoría</th>
+                    <th>Tipo</th>
+                    <th>Descripción</th>
+                    <th class="text-end">Monto</th>
+                    <th class="text-center">Origen</th>
+                    @if (Model.EsAdministrador)
+                    {
+                        <th class="text-center">Acción</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var mov in Model.Movimientos)
+                {
+                    var esIngreso = mov.IdCategoriaNavigation?.Tipo == "INGRESO";
+                    var esManual = mov.Compra == null;
+                    <tr>
+                        <td>@mov.Fecha.ToString("dd/MM/yyyy")</td>
+                        <td>
+                            <a asp-page="/Obras/Details" asp-route-id="@mov.IdObra">
+                                @mov.IdObraNavigation?.Nombre
+                            </a>
+                        </td>
+                        <td>@mov.IdCategoriaNavigation?.Nombre</td>
+                        <td>
+                            <span class="status-badge @(esIngreso ? "badge-ingreso" : "badge-egreso")">
+                                @(esIngreso ? "Ingreso" : "Egreso")
+                            </span>
+                        </td>
+                        <td>@(mov.Descripcion ?? "—")</td>
+                        <td class="text-end"><strong>$@mov.Monto.ToString("N0")</strong></td>
+                        <td class="text-center">
+                            <span class="status-badge @(esManual ? "badge-manual" : "badge-compra")">
+                                @(esManual ? "Manual" : "Compra")
+                            </span>
+                        </td>
+                        @if (Model.EsAdministrador)
+                        {
+                            <td class="text-center">
+                                @if (esManual)
+                                {
+                                    <a asp-page="/Finanzas/Delete" asp-route-id="@mov.IdMovimiento"
+                                       class="btn-icon btn-icon-danger" title="Eliminar movimiento">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+                                }
+                                else
+                                {
+                                    <span style="color:var(--text-muted); font-size:18px;" title="Eliminá la compra para borrar este movimiento">—</span>
+                                }
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="empty-state">
+            <i class="bi bi-cash-stack"></i>
+            <p>No hay movimientos financieros registrados</p>
+            @if (Model.PuedeEscribir)
+            {
+                <a asp-page="/Finanzas/Create" class="btn btn-light">Registrar primer movimiento</a>
+            }
+        </div>
+    }
+</div>
